@@ -54,7 +54,7 @@ public class WaterPool : Area2D
 
     public bool TryToTakeBlob()
     {
-        if (blobTakeCooldown > 0f)
+        if (blobsLeft <= 0 || blobTakeCooldown > 0f)
         {
             return false;
         }
@@ -73,7 +73,7 @@ public class WaterPool : Area2D
             particleEmitters[previousIndex].Modulate = new Color(particleEmitters[previousIndex].Modulate, 1f);
             particleEmitters[previousIndex].Visible = particleEmitters[previousIndex].Emitting = true;
         }
-        particleEmitters[index].Modulate = new Color(particleEmitters[index].Modulate, visibility);
+        particleEmitters[index].Modulate = new Color(particleEmitters[index].Modulate, Mathf.Min(visibility + .25f, 1f));
         particleEmitters[index].Visible = particleEmitters[index].Emitting = true;
         for (int laterIndex = index + 1; laterIndex < PARTICLE_RESOLUTION; laterIndex++)
         {

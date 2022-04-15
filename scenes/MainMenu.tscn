@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scenes/MainMenu.cs" type="Script" id=1]
 [ext_resource path="res://ui/Overlay.tscn" type="PackedScene" id=2]
+[ext_resource path="res://ui/GameSettingsNode.tscn" type="PackedScene" id=3]
 [ext_resource path="res://ui/SoundControl.tscn" type="PackedScene" id=4]
 
 [node name="MainMenu" type="Node2D"]
@@ -17,9 +18,9 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Container"]
 margin_left = 90.0
-margin_top = 50.0
+margin_top = 10.0
 margin_right = 390.0
-margin_bottom = 220.0
+margin_bottom = 259.0
 
 [node name="Title" type="Label" parent="Container/VBoxContainer"]
 margin_right = 300.0
@@ -63,6 +64,10 @@ rect_min_size = Vector2( 0, 20 )
 margin_top = 114.0
 margin_right = 300.0
 margin_bottom = 170.0
+
+[node name="GameSettings" parent="Container/VBoxContainer" instance=ExtResource( 3 )]
+margin_top = 174.0
+margin_bottom = 249.0
 
 [node name="Overlay" parent="." instance=ExtResource( 2 )]
 

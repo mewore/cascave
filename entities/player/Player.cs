@@ -3,7 +3,8 @@ using Godot;
 
 public class Player : KinematicBody2D
 {
-    private const int MAX_WATER_PARTICLES = 50;
+    public const string RETAIN_WATER_SETTING = "application/game/player_retains_water";
+    private const int MAX_WATER_BLOBS = 25;
 
     private const float ACCELERATION = 1600f;
     private const float AIR_ACCELERATION = 400f;
@@ -26,6 +27,11 @@ public class Player : KinematicBody2D
     private float lastOnFloorAt = 0f;
     private bool isJumping = false;
 
+    private const int MIN_DASH_COST = 5;
+    private const int MAX_DASH_COST = 10;
+    private float minDashSpeed;
+    private float maxDashSpeed;
+
     private Vector2 motion = new Vector2();
     public Vector2 Motion { get => motion; }
 
@@ -44,13 +50,15 @@ public class Player : KinematicBody2D
 
     [Export]
     private PackedScene waterParticleScene = null;
-    private readonly List<WaterBlob> waterBlobs = new List<WaterBlob>(MAX_WATER_PARTICLES);
+    private readonly List<WaterBlob> waterBlobs = new List<WaterBlob>(MAX_WATER_BLOBS);
     private Physics2DShapeQueryParameters waterIntersectParameters;
     private Resource waterDetectionShape;
 
     [Export]
-    private NodePath waterParticleContainer = null;
-    private Node waterParticleContainerNode;
+    private NodePath waterBlobContainer = null;
+    private Node waterBlobContainerNode;
+
+    private Vector2 lastDesiredMotion;
 
     [Export]
     private string inputSuffix = "";
@@ -66,12 +74,17 @@ public class Player : KinematicBody2D
 
     private float DesiredHorizontalMovement => Input.GetActionStrength(walkRightInput) - Input.GetActionStrength(walkLeftInput);
     private float DesiredVerticalMovement => Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
+    public static bool ShouldRetainWater => (bool)ProjectSettings.GetSetting(RETAIN_WATER_SETTING);
 
     public override void _Ready()
     {
         directSpaceState = Physics2DServer.SpaceGetDirectState(GetWorld2d().Space);
         float jumpHeight = -GetNode<Node2D>("MaxJumpHeight").Position.y;
         jumpSpeed = Mathf.Sqrt(GRAVITY * jumpHeight * 2f);
+        float minDashHeight = -GetNode<Node2D>("MinDashHeight").Position.y;
+        minDashSpeed = Mathf.Sqrt(GRAVITY * minDashHeight * 2f);
+        float maxDashHeight = -GetNode<Node2D>("MaxDashHeight").Position.y;
+        maxDashSpeed = Mathf.Sqrt(GRAVITY * maxDashHeight * 2f);
         sprite = GetNode<Sprite>("Sprite");
         outlineSprite = GetNode<Sprite>("Sprite/Outline");
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer"); ;
@@ -93,9 +106,9 @@ public class Player : KinematicBody2D
         waterIntersectParameters.CollisionLayer = waterLayer;
         waterIntersectParameters.CollideWithBodies = false;
         waterIntersectParameters.CollideWithAreas = true;
-        if (waterParticleContainer != null)
+        if (waterBlobContainer != null)
         {
-            waterParticleContainerNode = GetNode<Node>(waterParticleContainer);
+            waterBlobContainerNode = GetNode<Node>(waterBlobContainer);
         }
         waterDetectionShapeNode.QueueFree();
     }
@@ -152,6 +165,11 @@ public class Player : KinematicBody2D
             lastOnFloorAt = now;
         }
 
+        if (Input.IsActionJustPressed("dash"))
+        {
+            Dash();
+        }
+
         if (canControl)
         {
             if (!isJumping && Mathf.Max(now - lastWantedToJumpAt, now - lastOnFloorAt) <= JUMP_GRACE_PERIOD)
@@ -203,11 +221,32 @@ public class Player : KinematicBody2D
         return results.Count > 0 ? ((results[0] as Godot.Collections.Dictionary)["collider"] as WaterPool) : null;
     }
 
+    private void Dash()
+    {
+        Vector2 desiredMotion = new Vector2(DesiredHorizontalMovement, DesiredVerticalMovement);
+        if (desiredMotion.LengthSquared() > .001f)
+        {
+            lastDesiredMotion = desiredMotion;
+        }
+        if (waterBlobs.Count < MIN_DASH_COST || lastDesiredMotion == null)
+        {
+            return;
+        }
+
+        int usedBlobs = Mathf.Min(MAX_DASH_COST, waterBlobs.Count);
+        motion = lastDesiredMotion.Normalized() * Mathf.Lerp(minDashSpeed, maxDashSpeed, (float)usedBlobs / MAX_DASH_COST);
+        for (int blobIndex = 0; blobIndex < usedBlobs; blobIndex++)
+        {
+            waterBlobs[waterBlobs.Count - blobIndex - 1].QueueFree();
+        }
+        waterBlobs.RemoveRange(waterBlobs.Count - usedBlobs, usedBlobs);
+    }
+
     public void CollectOrReleaseWater()
     {
         if (Input.IsActionPressed("charge"))
         {
-            if (waterBlobs.Count < MAX_WATER_PARTICLES && waterParticleContainerNode != null && waterParticleScene != null)
+            if (waterBlobs.Count < MAX_WATER_BLOBS && waterBlobContainerNode != null && waterParticleScene != null)
             {
                 Vector2 mousePosition = GetGlobalMousePosition();
                 WaterPool detectedPool = GetDetectedPool(mousePosition);
@@ -216,13 +255,13 @@ public class Player : KinematicBody2D
                     var waterBlob = waterParticleScene.Instance<WaterBlob>();
                     waterBlob.Position = detectedPool.GetRandomPosition();
                     waterBlob.Player = center;
-                    waterParticleContainerNode.AddChild(waterBlob);
+                    waterBlobContainerNode.AddChild(waterBlob);
                     waterBlobs.Add(waterBlob);
                     waterBlob.WaterPool = detectedPool;
                 }
             }
         }
-        else
+        else if (!ShouldRetainWater || Input.IsActionJustPressed("release_water"))
         {
             foreach (WaterBlob blob in waterBlobs)
             {

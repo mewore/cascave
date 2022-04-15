@@ -193,6 +193,12 @@ shape = SubResource( 2 )
 [node name="MaxJumpHeight" type="Position2D" parent="."]
 position = Vector2( 0, -48 )
 
+[node name="MinDashHeight" type="Position2D" parent="."]
+position = Vector2( 0, -96 )
+
+[node name="MaxDashHeight" type="Position2D" parent="."]
+position = Vector2( 0, -192 )
+
 [node name="Center" type="Position2D" parent="."]
 position = Vector2( 0, -12 )
 

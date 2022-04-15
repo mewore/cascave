@@ -15,7 +15,7 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💙 Swimming in water
 - [x] 💙 Collecting water
 - [x] 💙 Finite water
-- [ ] 💙 Dash ([Space])
+- [x] 💙 Dash ([Space])
 - [ ] 💙 Shooting water
 - [ ] 💛 Simple music
 - [ ] 💛 Jumping and landing SFX (with reverb, of course)
@@ -29,6 +29,7 @@ Yet another generic puzzle platformer no one asked for.
 
 ### Basic features
 
+- [ ] 💙💜 Water indicator (5 squares which light up depending on how much water the player is carrying)
 - [ ] 💜 Better character
 - [ ] 💜 Better environment
 - [ ] 💜 Font
