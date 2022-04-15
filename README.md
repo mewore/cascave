@@ -12,7 +12,7 @@ Yet another generic puzzle platformer no one asked for.
 ### MVP
 
 - [x] 💙 Water
-- [ ] 💙 Swimming in water
+- [x] 💙 Swimming in water
 - [ ] 💙 Collecting water
 - [ ] 💙 Dash ([Space])
 - [ ] 💙 Shooting water

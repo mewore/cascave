@@ -19,7 +19,7 @@ polygon = PoolVector2Array( 128, 64, 168, 80, 184, 144, 80, 176, 37, 93.5 )
 
 [sub_resource type="OccluderPolygon2D" id=4]
 cull_mode = 2
-polygon = PoolVector2Array( -16, -80, -16, 280, 480, 280, 480, 332, 560, 332, 560, 280, 560, -80, 608, -80, 608, 280, 608, 368, -48, 368, -48, -80 )
+polygon = PoolVector2Array( -16, -80, -16, 280, 480, 280, 496, 296, 512, 332, 560, 332, 560, 280, 560, -80, 608, -80, 608, 280, 608, 368, -48, 368, -48, -80 )
 
 [node name="Level1" instance=ExtResource( 1 )]
 
@@ -37,13 +37,20 @@ player = NodePath("../Game/Player")
 mouseFollow = 0.25
 
 [node name="Player" parent="Game" index="0"]
-position = Vector2( 192, 148 )
+position = Vector2( 180, 160 )
 
 [node name="Water" type="Area2D" parent="Game" index="1"]
 position = Vector2( 552, 392 )
+collision_layer = 4
+space_override = 3
+gravity = -10.23
+linear_damp = 0.5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Game/Water" index="0"]
 shape = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="AutoPolygon2" parent="Game/Water/CollisionShape2D" index="0" instance=ExtResource( 2 )]
 color = Color( 0.360784, 0.588235, 0.72549, 0.321569 )
@@ -84,16 +91,16 @@ occluder = SubResource( 3 )
 
 [node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Game/World" index="2"]
 position = Vector2( 32, 80 )
-polygon = PoolVector2Array( -16, -80, -16, 280, 480, 280, 480, 332, 560, 332, 560, 280, 560, -80, 608, -80, 608, 280, 608, 368, -48, 368, -48, -80 )
+polygon = PoolVector2Array( -16, -80, -16, 280, 480, 280, 496, 296, 512, 332, 560, 332, 560, 280, 560, -80, 608, -80, 608, 280, 608, 368, -48, 368, -48, -80 )
 __meta__ = {
 "_edit_group_": true
 }
 
 [node name="AutoPolygon2" parent="Game/World/CollisionPolygon2D2" index="0" instance=ExtResource( 2 )]
-polygon = PoolVector2Array( -16, -80, -16, 280, 480, 280, 480, 332, 560, 332, 560, 280, 560, -80, 608, -80, 608, 280, 608, 368, -48, 368, -48, -80 )
+polygon = PoolVector2Array( -16, -80, -16, 280, 480, 280, 496, 296, 512, 332, 560, 332, 560, 280, 560, -80, 608, -80, 608, 280, 608, 368, -48, 368, -48, -80 )
 
 [node name="PolygonLine" parent="Game/World/CollisionPolygon2D2/AutoPolygon2" index="0" instance=ExtResource( 4 )]
-points = PoolVector2Array( -16, -80, -16, 280, 480, 280, 480, 332, 560, 332, 560, 280, 560, -80, 608, -80, 608, 280, 608, 368, -48, 368, -48, -80, -16, -80 )
+points = PoolVector2Array( -16, -80, -16, 280, 480, 280, 496, 296, 512, 332, 560, 332, 560, 280, 560, -80, 608, -80, 608, 280, 608, 368, -48, 368, -48, -80, -16, -80 )
 
 [node name="AutoLightOccluder" parent="Game/World/CollisionPolygon2D2/AutoPolygon2" index="1" instance=ExtResource( 6 )]
 occluder = SubResource( 4 )

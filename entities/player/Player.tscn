@@ -167,6 +167,7 @@ tracks/1/keys = {
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 2
 script = ExtResource( 1 )
+waterLayer = 4
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -16 )
@@ -186,6 +187,9 @@ shape = SubResource( 2 )
 
 [node name="MaxJumpHeight" type="Position2D" parent="."]
 position = Vector2( 0, -48 )
+
+[node name="Center" type="Position2D" parent="."]
+position = Vector2( 0, -12 )
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 4 )

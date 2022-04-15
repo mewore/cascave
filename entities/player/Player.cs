@@ -4,11 +4,15 @@ public class Player : KinematicBody2D
 {
     private const float ACCELERATION = 1600f;
     private const float AIR_ACCELERATION = 400f;
+    private const float UNDERWATER_ACCELERATION = 500f;
     private const float INACTIVE_ACCELERATION = 100f;
     private const float MAX_SPEED = 120f;
+    private const float MAX_UNDERWATER_SPEED = 120f;
+    private const float UNDETWATER_DAMPING = .05f;
 
     private const float MAX_FALL_SPEED = 300f;
     private const float GRAVITY = 600f;
+    private const float UNDERWATER_GRAVITY = 200f;
 
     private float now = 0f;
 
@@ -25,10 +29,15 @@ public class Player : KinematicBody2D
     private Sprite sprite;
     private Sprite outlineSprite;
     private AnimationPlayer animationPlayer;
-    private AnimationPlayer tipAnimationPlayer;
 
     private AudioStreamPlayer jumpSound;
     private AudioStreamPlayer landSound;
+
+    private Vector2 center;
+
+    [Export(PropertyHint.Layers2dPhysics)]
+    private uint waterLayer = 0;
+    private Physics2DDirectSpaceState directSpaceState;
 
     [Export]
     private string inputSuffix = "";
@@ -42,15 +51,17 @@ public class Player : KinematicBody2D
     [Export]
     private string jumpInput = "jump";
 
+    private float DesiredHorizontalMovement => Input.GetActionStrength(walkRightInput) - Input.GetActionStrength(walkLeftInput);
+    private float DesiredVerticalMovement => Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
 
     public override void _Ready()
     {
+        directSpaceState = Physics2DServer.SpaceGetDirectState(GetWorld2d().Space);
         float jumpHeight = -GetNode<Node2D>("MaxJumpHeight").Position.y;
         jumpSpeed = Mathf.Sqrt(GRAVITY * jumpHeight * 2f);
         sprite = GetNode<Sprite>("Sprite");
         outlineSprite = GetNode<Sprite>("Sprite/Outline");
-        animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-        tipAnimationPlayer = GetNode<AnimationPlayer>("Tip/AnimationPlayer");
+        animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer"); ;
         jumpSound = GetNode<AudioStreamPlayer>("JumpSound");
         landSound = GetNode<AudioStreamPlayer>("LandSound");
         if (!inputSuffix.Equals(""))
@@ -59,6 +70,7 @@ public class Player : KinematicBody2D
             walkRightInput += "_" + inputSuffix;
             jumpInput += "_" + inputSuffix;
         }
+        center = GetNode<Node2D>("Center").Position;
     }
 
     public override void _PhysicsProcess(float delta)
@@ -71,25 +83,32 @@ public class Player : KinematicBody2D
         outlineSprite.Frame = sprite.Frame;
     }
 
+    private bool IsUnderwater() => directSpaceState.IntersectPoint(GlobalPosition + center, 1, null, waterLayer, false, true).Count > 0;
+
     public void Move(float delta, bool canControl)
     {
-        bool isOnFloor = IsOnFloor();
-        float maxAcceleration = (canControl ? (isOnFloor ? ACCELERATION : AIR_ACCELERATION) : INACTIVE_ACCELERATION) * delta;
-
-        float targetMotionX = canControl
-            ? (Input.GetActionStrength(walkRightInput) - Input.GetActionStrength(walkLeftInput)) * MAX_SPEED
-            : 0;
-        motion.x = Mathf.Abs(targetMotionX - motion.x) <= maxAcceleration
-            ? targetMotionX
-            : motion.x + (targetMotionX > motion.x ? maxAcceleration : -maxAcceleration);
-
+        bool isUnderwater = IsUnderwater();
+        bool isOnFloor = !isUnderwater && IsOnFloor();
         float lastMotionY = motion.y;
-        motion.y = Mathf.Min(isOnFloor ? motion.y : (motion.y + GRAVITY * delta), MAX_FALL_SPEED);
 
-        if (targetMotionX != 0f && tipAnimationPlayer != null && !tipAnimationPlayer.IsPlaying())
+        motion.y = Mathf.Min(isOnFloor ? motion.y : (motion.y + (isUnderwater ? UNDERWATER_GRAVITY : GRAVITY) * delta), MAX_FALL_SPEED);
+        if (isUnderwater)
         {
-            tipAnimationPlayer.Play("fade_out");
-            tipAnimationPlayer = null;
+            if (canControl)
+            {
+                motion += new Vector2(DesiredHorizontalMovement, DesiredVerticalMovement).Normalized() * UNDERWATER_ACCELERATION * delta;
+            }
+            motion *= (1f - UNDETWATER_DAMPING);
+        }
+        else
+        {
+            float maxAcceleration = (canControl ? (isOnFloor ? ACCELERATION : AIR_ACCELERATION) : INACTIVE_ACCELERATION) * delta;
+            float targetMotionX = canControl
+                ? (Input.GetActionStrength(walkRightInput) - Input.GetActionStrength(walkLeftInput)) * MAX_SPEED
+                : 0;
+            motion.x = Mathf.Abs(targetMotionX - motion.x) <= maxAcceleration
+                ? targetMotionX
+                : motion.x + (targetMotionX > motion.x ? maxAcceleration : -maxAcceleration);
         }
 
         if (Input.IsActionJustPressed(jumpInput))
@@ -119,9 +138,9 @@ public class Player : KinematicBody2D
         }
         isJumping = isJumping && motion.y < 0f;
 
-        motion = MoveAndSlide(motion, Vector2.Up);
+        motion = MoveAndSlide(motion, Vector2.Up, true);
 
-        if (canControl && !isOnFloor && IsOnFloor() && lastMotionY > jumpSpeed * .5f)
+        if (!isUnderwater && canControl && !isOnFloor && IsOnFloor() && lastMotionY > jumpSpeed * .5f)
         {
             landSound.Play();
         }
