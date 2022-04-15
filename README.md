@@ -16,7 +16,7 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💙 Collecting water
 - [x] 💙 Finite water
 - [x] 💙 Dash ([Space])
-- [ ] 💙 Shooting water
+- [x] 💙 Shooting water
 - [ ] 💛 Simple music
 - [ ] 💛 Jumping and landing SFX (with reverb, of course)
 - [ ] 💙💜 Torches to extinguish

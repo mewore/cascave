@@ -4,7 +4,7 @@ using Godot;
 public class Player : KinematicBody2D
 {
     public const string RETAIN_WATER_SETTING = "application/game/player_retains_water";
-    private const int MAX_WATER_BLOBS = 25;
+    private const int MAX_WATER_BLOBS = 50;
 
     private const float ACCELERATION = 1600f;
     private const float AIR_ACCELERATION = 400f;
@@ -32,6 +32,9 @@ public class Player : KinematicBody2D
     private float minDashSpeed;
     private float maxDashSpeed;
 
+    private const float LAUNCH_COOLDOWN = .05f;
+    private float canLaunchAt = 0f;
+
     private Vector2 motion = new Vector2();
     public Vector2 Motion { get => motion; }
 
@@ -50,7 +53,7 @@ public class Player : KinematicBody2D
 
     [Export]
     private PackedScene waterParticleScene = null;
-    private readonly List<WaterBlob> waterBlobs = new List<WaterBlob>(MAX_WATER_BLOBS);
+    private readonly Stack<WaterBlob> waterBlobs = new Stack<WaterBlob>(MAX_WATER_BLOBS);
     private Physics2DShapeQueryParameters waterIntersectParameters;
     private Resource waterDetectionShape;
 
@@ -78,7 +81,6 @@ public class Player : KinematicBody2D
 
     public override void _Ready()
     {
-        directSpaceState = Physics2DServer.SpaceGetDirectState(GetWorld2d().Space);
         float jumpHeight = -GetNode<Node2D>("MaxJumpHeight").Position.y;
         jumpSpeed = Mathf.Sqrt(GRAVITY * jumpHeight * 2f);
         float minDashHeight = -GetNode<Node2D>("MinDashHeight").Position.y;
@@ -237,12 +239,11 @@ public class Player : KinematicBody2D
         motion = lastDesiredMotion.Normalized() * Mathf.Lerp(minDashSpeed, maxDashSpeed, (float)usedBlobs / MAX_DASH_COST);
         for (int blobIndex = 0; blobIndex < usedBlobs; blobIndex++)
         {
-            waterBlobs[waterBlobs.Count - blobIndex - 1].QueueFree();
+            waterBlobs.Pop().QueueFree();
         }
-        waterBlobs.RemoveRange(waterBlobs.Count - usedBlobs, usedBlobs);
     }
 
-    public void CollectOrReleaseWater()
+    public void HandleWater()
     {
         if (Input.IsActionPressed("charge"))
         {
@@ -256,7 +257,7 @@ public class Player : KinematicBody2D
                     waterBlob.Position = detectedPool.GetRandomPosition();
                     waterBlob.Player = center;
                     waterBlobContainerNode.AddChild(waterBlob);
-                    waterBlobs.Add(waterBlob);
+                    waterBlobs.Push(waterBlob);
                     waterBlob.WaterPool = detectedPool;
                 }
             }
@@ -268,6 +269,12 @@ public class Player : KinematicBody2D
                 blob.Release();
             }
             waterBlobs.Clear();
+        }
+
+        if (Input.IsActionPressed("launch") && waterBlobs.Count > 0 && now >= canLaunchAt)
+        {
+            canLaunchAt = now + LAUNCH_COOLDOWN;
+            waterBlobs.Pop().Launch(GetGlobalMousePosition());
         }
     }
 }
