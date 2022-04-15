@@ -24,11 +24,17 @@ public class AutoPolygon : Polygon2D
             Node parent = GetParent<Node>();
             if (parent is CollisionPolygon2D)
             {
-                Polygon = ((CollisionPolygon2D)parent).Polygon;
+                Polygon = (parent as CollisionPolygon2D).Polygon;
             }
             else if (parent is CollisionShape2D)
             {
-                var shape = ((CollisionShape2D)parent).Shape;
+                var shape = (parent as CollisionShape2D).Shape;
+                if (shape is RectangleShape2D)
+                {
+                    var rectangle = shape as RectangleShape2D;
+                    var bottomLeft = new Vector2(-rectangle.Extents.x, rectangle.Extents.y);
+                    Polygon = new Vector2[] { -rectangle.Extents, -bottomLeft, rectangle.Extents, bottomLeft };
+                }
             }
         }
     }
