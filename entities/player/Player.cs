@@ -1,7 +1,10 @@
+using System.Collections.Generic;
 using Godot;
 
 public class Player : KinematicBody2D
 {
+    private const int MAX_WATER_PARTICLES = 50;
+
     private const float ACCELERATION = 1600f;
     private const float AIR_ACCELERATION = 400f;
     private const float UNDERWATER_ACCELERATION = 500f;
@@ -33,11 +36,21 @@ public class Player : KinematicBody2D
     private AudioStreamPlayer jumpSound;
     private AudioStreamPlayer landSound;
 
-    private Vector2 center;
+    private Node2D center;
 
     [Export(PropertyHint.Layers2dPhysics)]
     private uint waterLayer = 0;
     private Physics2DDirectSpaceState directSpaceState;
+
+    [Export]
+    private PackedScene waterParticleScene = null;
+    private readonly List<WaterParticle> waterParticles = new List<WaterParticle>(MAX_WATER_PARTICLES);
+    private Physics2DShapeQueryParameters waterIntersectParameters;
+    private Resource waterDetectionShape;
+
+    [Export]
+    private NodePath waterParticleContainer = null;
+    private Node waterParticleContainerNode;
 
     [Export]
     private string inputSuffix = "";
@@ -70,7 +83,18 @@ public class Player : KinematicBody2D
             walkRightInput += "_" + inputSuffix;
             jumpInput += "_" + inputSuffix;
         }
-        center = GetNode<Node2D>("Center").Position;
+        center = GetNode<Node2D>("Center");
+
+        var waterDetectionShapeNode = GetNode<CollisionShape2D>("WaterDetectionShape");
+        directSpaceState = Physics2DServer.SpaceGetDirectState(GetWorld2d().Space);
+        waterIntersectParameters = new Physics2DShapeQueryParameters();
+        waterIntersectParameters.SetShape(waterDetectionShape = waterDetectionShapeNode.Shape);
+        waterDetectionShape.Reference_();
+        waterIntersectParameters.CollisionLayer = waterLayer;
+        waterIntersectParameters.CollideWithBodies = false;
+        waterIntersectParameters.CollideWithAreas = true;
+        waterParticleContainerNode = GetNode<Node>(waterParticleContainer);
+        waterDetectionShapeNode.QueueFree();
     }
 
     public override void _PhysicsProcess(float delta)
@@ -83,7 +107,12 @@ public class Player : KinematicBody2D
         outlineSprite.Frame = sprite.Frame;
     }
 
-    private bool IsUnderwater() => directSpaceState.IntersectPoint(GlobalPosition + center, 1, null, waterLayer, false, true).Count > 0;
+    public override void _ExitTree()
+    {
+        waterDetectionShape.Unreference();
+    }
+
+    private bool IsUnderwater() => directSpaceState.IntersectPoint(GlobalPosition + center.Position, 1, null, waterLayer, false, true).Count > 0;
 
     public void Move(float delta, bool canControl)
     {
@@ -161,6 +190,41 @@ public class Player : KinematicBody2D
             {
                 animationPlayer.Play(targetAnimation);
             }
+        }
+    }
+
+    public WaterPool GetDetectedPool(Vector2 position)
+    {
+        waterIntersectParameters.Transform = new Transform2D(Vector2.Right, Vector2.Down, position);
+        Godot.Collections.Array results = directSpaceState.IntersectShape(waterIntersectParameters, 1);
+        return results.Count > 0 ? ((results[0] as Godot.Collections.Dictionary)["collider"] as WaterPool) : null;
+    }
+
+    public void CollectOrReleaseWater()
+    {
+        if (Input.IsActionPressed("charge"))
+        {
+            if (waterParticles.Count < MAX_WATER_PARTICLES)
+            {
+                Vector2 mousePosition = GetGlobalMousePosition();
+                WaterPool detectedPool = GetDetectedPool(mousePosition);
+                if (detectedPool != null && detectedPool.TryToTakeBlob())
+                {
+                    var waterParticle = waterParticleScene.Instance<WaterParticle>();
+                    waterParticle.Position = detectedPool.GetRandomPosition();
+                    waterParticle.player = center;
+                    waterParticleContainerNode.AddChild(waterParticle);
+                    waterParticles.Add(waterParticle);
+                }
+            }
+        }
+        else
+        {
+            foreach (WaterParticle particle in waterParticles)
+            {
+                particle.Release();
+            }
+            waterParticles.Clear();
         }
     }
 }
