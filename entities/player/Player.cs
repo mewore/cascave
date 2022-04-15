@@ -44,7 +44,7 @@ public class Player : KinematicBody2D
 
     [Export]
     private PackedScene waterParticleScene = null;
-    private readonly List<WaterParticle> waterParticles = new List<WaterParticle>(MAX_WATER_PARTICLES);
+    private readonly List<WaterBlob> waterBlobs = new List<WaterBlob>(MAX_WATER_PARTICLES);
     private Physics2DShapeQueryParameters waterIntersectParameters;
     private Resource waterDetectionShape;
 
@@ -93,7 +93,10 @@ public class Player : KinematicBody2D
         waterIntersectParameters.CollisionLayer = waterLayer;
         waterIntersectParameters.CollideWithBodies = false;
         waterIntersectParameters.CollideWithAreas = true;
-        waterParticleContainerNode = GetNode<Node>(waterParticleContainer);
+        if (waterParticleContainer != null)
+        {
+            waterParticleContainerNode = GetNode<Node>(waterParticleContainer);
+        }
         waterDetectionShapeNode.QueueFree();
     }
 
@@ -204,27 +207,28 @@ public class Player : KinematicBody2D
     {
         if (Input.IsActionPressed("charge"))
         {
-            if (waterParticles.Count < MAX_WATER_PARTICLES)
+            if (waterBlobs.Count < MAX_WATER_PARTICLES && waterParticleContainerNode != null && waterParticleScene != null)
             {
                 Vector2 mousePosition = GetGlobalMousePosition();
                 WaterPool detectedPool = GetDetectedPool(mousePosition);
                 if (detectedPool != null && detectedPool.TryToTakeBlob())
                 {
-                    var waterParticle = waterParticleScene.Instance<WaterParticle>();
-                    waterParticle.Position = detectedPool.GetRandomPosition();
-                    waterParticle.player = center;
-                    waterParticleContainerNode.AddChild(waterParticle);
-                    waterParticles.Add(waterParticle);
+                    var waterBlob = waterParticleScene.Instance<WaterBlob>();
+                    waterBlob.Position = detectedPool.GetRandomPosition();
+                    waterBlob.Player = center;
+                    waterParticleContainerNode.AddChild(waterBlob);
+                    waterBlobs.Add(waterBlob);
+                    waterBlob.WaterPool = detectedPool;
                 }
             }
         }
         else
         {
-            foreach (WaterParticle particle in waterParticles)
+            foreach (WaterBlob blob in waterBlobs)
             {
-                particle.Release();
+                blob.Release();
             }
-            waterParticles.Clear();
+            waterBlobs.Clear();
         }
     }
 }

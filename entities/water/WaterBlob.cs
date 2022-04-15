@@ -1,14 +1,15 @@
 using Godot;
 
-public class WaterParticle : Sprite
+public class WaterBlob : Sprite
 {
     private const float ACCELERATION = 1500f;
     private const float POSITION_RANDOMIZATION = 30f;
     private const float LIFETIME = .5f;
 
     private Vector2 motion = Vector2.Zero;
-    public Node2D player;
+    public Node2D Player;
     private Vector2 sourcePosition;
+    public WaterPool WaterPool;
 
     private bool returning = false;
     private float lifetime = LIFETIME;
@@ -20,7 +21,7 @@ public class WaterParticle : Sprite
 
     public override void _Process(float delta)
     {
-        Vector2 targetPosition = returning ? sourcePosition : player.GlobalPosition + new Vector2(GD.Randf() - .5f, GD.Randf() - .5f) * POSITION_RANDOMIZATION;
+        Vector2 targetPosition = returning ? sourcePosition : Player.GlobalPosition + new Vector2(GD.Randf() - .5f, GD.Randf() - .5f) * POSITION_RANDOMIZATION;
         Vector2 positionDifference = targetPosition - GlobalPosition;
         motion += new Vector2(getAccelerationComponent(motion.x, positionDifference.x), getAccelerationComponent(motion.y, positionDifference.y)) * delta;
         Position += motion * delta;
@@ -30,6 +31,7 @@ public class WaterParticle : Sprite
             if ((lifetime -= delta) < 0f)
             {
                 QueueFree();
+                WaterPool.ReceiveBlob();
             }
             SelfModulate = new Color(SelfModulate, lifetime / LIFETIME);
         }

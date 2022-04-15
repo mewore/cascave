@@ -14,7 +14,7 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💙 Water
 - [x] 💙 Swimming in water
 - [x] 💙 Collecting water
-- [ ] 💙 Finite water
+- [x] 💙 Finite water
 - [ ] 💙 Dash ([Space])
 - [ ] 💙 Shooting water
 - [ ] 💛 Simple music
