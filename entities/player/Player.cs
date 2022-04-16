@@ -43,7 +43,12 @@ public class Player : KinematicBody2D
     private AnimationPlayer animationPlayer;
 
     private AudioStreamPlayer jumpSound;
+    private AudioStreamPlayer dashSound;
     private AudioStreamPlayer landSound;
+
+    private const float STEP_SOUND_COOLDOWN = .3f;
+    private float currentStepSoundCooldown = STEP_SOUND_COOLDOWN;
+    private AudioStreamPlayer stepSound;
 
     private Node2D center;
 
@@ -91,7 +96,9 @@ public class Player : KinematicBody2D
         outlineSprite = GetNode<Sprite>("Sprite/Outline");
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer"); ;
         jumpSound = GetNode<AudioStreamPlayer>("JumpSound");
+        dashSound = GetNode<AudioStreamPlayer>("DashSound");
         landSound = GetNode<AudioStreamPlayer>("LandSound");
+        stepSound = GetNode<AudioStreamPlayer>("StepSound");
         if (!inputSuffix.Equals(""))
         {
             walkLeftInput += "_" + inputSuffix;
@@ -179,7 +186,7 @@ public class Player : KinematicBody2D
                 lastOnFloorAt = lastWantedToJumpAt = now - JUMP_GRACE_PERIOD;
                 motion.y = -jumpSpeed;
                 isJumping = true;
-                jumpSound.PitchScale = 1f + (GD.Randf() - .5f) * .5f;
+                jumpSound.PitchScale = 1f + (GD.Randf() - .5f) * .2f;
                 jumpSound.Play();
             }
             else if (isJumping && Input.IsActionJustReleased(jumpInput))
@@ -190,11 +197,29 @@ public class Player : KinematicBody2D
         }
         isJumping = isJumping && motion.y < 0f;
 
+        bool wasOnFloor = isOnFloor;
         motion = MoveAndSlide(motion, Vector2.Up, true);
+        isOnFloor = IsOnFloor();
 
-        if (!isUnderwater && canControl && !isOnFloor && IsOnFloor() && lastMotionY > jumpSpeed * .5f)
+        if (!isUnderwater && canControl && !wasOnFloor && isOnFloor)
         {
-            landSound.Play();
+            if (lastMotionY > jumpSpeed * .5f)
+            {
+                currentStepSoundCooldown = STEP_SOUND_COOLDOWN;
+                landSound.Play();
+            }
+            else if (lastMotionY > jumpSpeed * .2f)
+            {
+                PlayStepSound();
+            }
+        }
+        else if (wasOnFloor && isOnFloor && Mathf.Abs(motion.x) > MAX_SPEED * .1f)
+        {
+            currentStepSoundCooldown -= delta;
+            if (currentStepSoundCooldown < 0f && !stepSound.Playing)
+            {
+                PlayStepSound();
+            }
         }
 
         if (canControl && sprite.Visible)
@@ -214,6 +239,13 @@ public class Player : KinematicBody2D
                 animationPlayer.Play(targetAnimation);
             }
         }
+    }
+
+    private void PlayStepSound()
+    {
+        currentStepSoundCooldown = STEP_SOUND_COOLDOWN;
+        stepSound.PitchScale = 1f + (GD.Randf() - .5f) * .1f;
+        stepSound.Play();
     }
 
     public WaterPool GetDetectedPool(Vector2 position)
@@ -241,6 +273,7 @@ public class Player : KinematicBody2D
         {
             waterBlobs.Pop().QueueFree();
         }
+        dashSound.Play();
     }
 
     public void HandleWater()

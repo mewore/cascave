@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://entities/player/Player.cs" type="Script" id=1]
 [ext_resource path="res://entities/player/states/PlayerActive.cs" type="Script" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://entities/player/animations/jump_side.tres" type="Animation" id=7]
 [ext_resource path="res://entities/player/animations/fall_side.tres" type="Animation" id=8]
 [ext_resource path="res://entities/water/WaterBlob.tscn" type="PackedScene" id=9]
+[ext_resource path="res://entities/player/jump.ogg" type="AudioStream" id=10]
+[ext_resource path="res://entities/player/land.ogg" type="AudioStream" id=11]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 blend_mode = 1
@@ -241,11 +243,22 @@ __meta__ = {
 anims/fade_out = SubResource( 7 )
 
 [node name="LandSound" type="AudioStreamPlayer" parent="."]
-pitch_scale = 1.89
+stream = ExtResource( 11 )
 bus = "SFX"
 
 [node name="JumpSound" type="AudioStreamPlayer" parent="."]
-volume_db = 1.0
+stream = ExtResource( 10 )
+volume_db = -5.0
+bus = "SFX"
+
+[node name="DashSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = -1.0
+bus = "SFX"
+
+[node name="StepSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+volume_db = -10.0
 bus = "SFX"
 
 [node name="WaterDetectionShape" type="CollisionShape2D" parent="."]

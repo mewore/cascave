@@ -18,8 +18,10 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💙 Dash ([Space])
 - [x] 💙 Shooting water
 - [x] 💛 Simple music
-- [ ] 💛 Jumping and landing SFX (with reverb, of course)
-- [ ] 💙💜 Torches to extinguish
+- [x] 💛 Running, jumping, dashing and landing SFX (with reverb, of course)
+  - Jump/Dash: [Source](https://www.zapsplat.com/music/male-breathing-fast-panting-panicking-1/) | [Source](https://www.zapsplat.com/music/breath-human-scared-fear-018/)
+  - Land/Step: [Source](https://www.zapsplat.com/music/a-pair-of-soccer-boots-set-down-on-stones-1/)
+- [ ] 💙💜💛 Torches to extinguish
 - [ ] 💜 Simple character (32 x 48 px)
 - [ ] 💙💜 Simple environment (tile-based)
 - [ ] 💚 First and second level
@@ -33,7 +35,6 @@ Yet another generic puzzle platformer no one asked for.
 - [ ] 💜 Better character
 - [ ] 💜 Better environment
 - [ ] 💜 Font
-- [ ] 💛 Running SFX
 - [ ] 💙 Water splash particles
 - [ ] 💛 Water splash SFX
 - [ ] 💙 Water surface waviness
