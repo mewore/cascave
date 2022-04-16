@@ -23,7 +23,8 @@ Yet another generic puzzle platformer no one asked for.
       | [Source](https://www.zapsplat.com/music/breath-human-scared-fear-018/)
     - Land/Step: [Source](https://www.zapsplat.com/music/a-pair-of-soccer-boots-set-down-on-stones-1/)
 - [x] 💙💜💛 Torches to extinguish
-- [ ] 💜 Simple character (32 x 48 px)
+  - Fire sound: [Source](https://www.zapsplat.com/music/campfire-flames-burn-and-sizzle-in-wind/)
+- [x] 💜 Simple character (32 x 48 px)
 - [ ] 💙💜 Simple environment (tile-based)
 - [ ] 💙 When all torches in the level are extinguished, a collider to the right of the map is disabled and the player
   can proceed to the next level
@@ -41,7 +42,7 @@ Yet another generic puzzle platformer no one asked for.
 - [ ] 💜 Font
 - [ ] 💙 Water splash particles
 - [ ] 💛 Water splash SFX
-- [ ] 💙 Water surface waviness
+- [ ] 💙💛 When a water blob collides with fire, it turns into steam particles
 - [ ] 💙💜💛 Waterfalls
 - [ ] 💙💜 Enemies
 - [ ] 💚 5 total levels
@@ -50,6 +51,7 @@ Yet another generic puzzle platformer no one asked for.
 
 ### Advanced features
 
+- [ ] 💙 Water surface waviness
 - [ ] 💙💜 Level selection icons
 - [ ] 💙 Another kind of transition
 - [ ] 💙 Player monologue

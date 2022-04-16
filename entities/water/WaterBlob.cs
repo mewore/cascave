@@ -68,7 +68,6 @@ public class WaterBlob : Sprite
             foreach (Godot.Collections.Dictionary collision in result)
             {
                 var colliderOwner = (collision["collider"] as Node).Owner;
-                GD.Print("Collision: ", colliderOwner, " | ", colliderOwner.GetPath(), " | ", colliderOwner is Fire);
                 if (!(colliderOwner is Fire) || (colliderOwner as Fire).TakeDamage())
                 {
                     QueueFree();

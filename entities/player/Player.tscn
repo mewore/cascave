@@ -17,7 +17,7 @@ blend_mode = 1
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 8.0
-height = 8.0
+height = 16.0
 
 [sub_resource type="Animation" id=3]
 length = 0.6
@@ -177,7 +177,7 @@ waterLayer = 4
 waterParticleScene = ExtResource( 9 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 0, -16 )
+position = Vector2( 0, -24 )
 texture = ExtResource( 3 )
 hframes = 9
 
@@ -189,7 +189,7 @@ material = SubResource( 1 )
 hframes = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -12 )
+position = Vector2( 0, -16 )
 shape = SubResource( 2 )
 
 [node name="MaxJumpHeight" type="Position2D" parent="."]
@@ -202,7 +202,7 @@ position = Vector2( 0, -96 )
 position = Vector2( 0, -192 )
 
 [node name="Center" type="Position2D" parent="."]
-position = Vector2( 0, -12 )
+position = Vector2( 0, -20 )
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 4 )
@@ -235,9 +235,6 @@ margin_bottom = 32.0
 rect_min_size = Vector2( 256, 64 )
 align = 1
 valign = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Tip"]
 anims/fade_out = SubResource( 7 )
