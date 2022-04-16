@@ -8,6 +8,8 @@ public class Fire : Node2D
     private int hitPoints = 5;
     private int currentHitPoints;
 
+    public bool IsExtinguished => currentHitPoints == 0;
+
     private double log10HitPoints;
     private float originalVolume;
 

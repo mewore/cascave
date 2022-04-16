@@ -84,6 +84,11 @@ public class Player : KinematicBody2D
     private float DesiredVerticalMovement => Input.GetActionStrength("move_down") - Input.GetActionStrength("move_up");
     public static bool ShouldRetainWater => (bool)ProjectSettings.GetSetting(RETAIN_WATER_SETTING);
 
+    private Vector2 topLeftLimit;
+    public Vector2 BottomRightLimit = new Vector2(100f, 100f);
+
+    private bool isOnFloor;
+
     public override void _Ready()
     {
         float jumpHeight = -GetNode<Node2D>("MaxJumpHeight").Position.y;
@@ -120,6 +125,7 @@ public class Player : KinematicBody2D
             waterBlobContainerNode = GetNode<Node>(waterBlobContainer);
         }
         waterDetectionShapeNode.QueueFree();
+        topLeftLimit = GetNode<Node2D>("TopLeftLimit").Position;
     }
 
     public override void _PhysicsProcess(float delta)
@@ -142,7 +148,7 @@ public class Player : KinematicBody2D
     public void Move(float delta, bool canControl)
     {
         bool isUnderwater = IsUnderwater();
-        bool isOnFloor = !isUnderwater && IsOnFloor();
+        isOnFloor = !isUnderwater && isOnFloor;
         float lastMotionY = motion.y;
 
         motion.y = Mathf.Min(isOnFloor ? motion.y : (motion.y + (isUnderwater ? UNDERWATER_GRAVITY : GRAVITY) * delta), MAX_FALL_SPEED);
@@ -198,6 +204,28 @@ public class Player : KinematicBody2D
         motion = MoveAndSlide(motion, Vector2.Up, true);
         isUnderwater = IsUnderwater();
         isOnFloor = IsOnFloor();
+
+        if (motion.x < 0 && Position.x < topLeftLimit.x)
+        {
+            Position = new Vector2(topLeftLimit.x, Position.y);
+            motion.x = 0f;
+        }
+        else if (motion.x > 0 && Position.x > BottomRightLimit.x)
+        {
+            Position = new Vector2(BottomRightLimit.x, Position.y);
+            motion.x = 0f;
+        }
+        if (motion.y < 0 && Position.y < topLeftLimit.y)
+        {
+            Position = new Vector2(Position.x, topLeftLimit.y);
+            motion.y = 0f;
+        }
+        else if (motion.y > 0 && Position.y > BottomRightLimit.y)
+        {
+            Position = new Vector2(Position.x, BottomRightLimit.y);
+            motion.y = 0f;
+            isOnFloor = true;
+        }
 
         if (!isUnderwater && canControl && !wasOnFloor && isOnFloor)
         {

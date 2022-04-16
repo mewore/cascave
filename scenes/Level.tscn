@@ -27,6 +27,9 @@ motion_scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 9 )
 region_enabled = true
 region_rect = Rect2( 0, 0, 5000, 2000 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="FarMiddle" type="ParallaxLayer" parent="Background/ParallaxBackground"]
 modulate = Color( 0.313726, 0.231373, 0.470588, 1 )
@@ -85,6 +88,9 @@ tile_set = ExtResource( 6 )
 cell_size = Vector2( 16, 16 )
 collision_mask = 6
 format = 1
+
+[node name="PlayerLimit" type="Position2D" parent="Game"]
+position = Vector2( 800, 450 )
 
 [node name="Overlay" parent="." instance=ExtResource( 7 )]
 

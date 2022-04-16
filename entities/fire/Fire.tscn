@@ -25,12 +25,13 @@ colors = PoolColorArray( 0.00784314, 0.00784314, 0.00784314, 0, 0.0313726, 0.031
 [sub_resource type="CircleShape2D" id=6]
 radius = 12.0
 
-[node name="Fire" type="Node2D"]
+[node name="Fire" type="Node2D" groups=["fire"]]
 script = ExtResource( 4 )
 
 [node name="Fire" type="CPUParticles2D" parent="."]
 material = SubResource( 3 )
 amount = 50
+preprocess = 3.0
 local_coords = false
 texture = ExtResource( 2 )
 emission_shape = 1
@@ -45,6 +46,7 @@ color_ramp = SubResource( 5 )
 show_behind_parent = true
 amount = 30
 lifetime = 3.0
+preprocess = 3.0
 local_coords = false
 texture = ExtResource( 1 )
 emission_shape = 1

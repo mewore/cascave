@@ -172,6 +172,7 @@ radius = 32.9848
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 2
+collision_mask = 17
 script = ExtResource( 1 )
 waterLayer = 4
 waterParticleScene = ExtResource( 9 )
@@ -200,6 +201,9 @@ position = Vector2( 0, -96 )
 
 [node name="MaxDashHeight" type="Position2D" parent="."]
 position = Vector2( 0, -192 )
+
+[node name="TopLeftLimit" type="Position2D" parent="."]
+position = Vector2( -4, -40 )
 
 [node name="Center" type="Position2D" parent="."]
 position = Vector2( 0, -20 )

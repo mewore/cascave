@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Godot;
 
 public class Level : Node2D
@@ -10,6 +12,10 @@ public class Level : Node2D
     string targetScene;
 
     private CanvasItem pauseMenu;
+    private Player player;
+    private Func<int> firesLeft = () => 1;
+    private Vector2 bottomRightLimit;
+    private Vector2 winBottomRightLimit;
 
     public override void _Ready()
     {
@@ -18,11 +24,45 @@ public class Level : Node2D
         overlay.FadeIn();
         currentLevel = Global.CurrentLevel;
         GlobalSound.GetInstance(this).MusicForeground = true;
+
+        var gameNode = GetNode<Node>("Game");
+        player = gameNode.GetNode<Player>("Player");
+        player.BottomRightLimit = bottomRightLimit = gameNode.GetNode<Node2D>("PlayerLimit").GlobalPosition;
+        winBottomRightLimit = new Vector2(bottomRightLimit.x + 1000f, bottomRightLimit.y);
+        List<Fire> fires = new List<Fire>();
+        foreach (var fire in GetTree().GetNodesInGroup("fire"))
+        {
+            fires.Add(fire as Fire);
+        }
+        firesLeft = () =>
+        {
+            int count = fires.Count;
+            foreach (var fire in fires)
+            {
+                if (fire.IsExtinguished)
+                {
+                    --count;
+                }
+            }
+            return count;
+        };
     }
 
     public override void _Process(float delta)
     {
         GetTree().Paused = overlay.Transitioning || paused;
+    }
+
+    public override void _PhysicsProcess(float delta)
+    {
+        if (firesLeft() == 0)
+        {
+            player.BottomRightLimit = winBottomRightLimit;
+            if (player.Position.x > bottomRightLimit.x)
+            {
+                WinLevel();
+            }
+        }
     }
 
     public override void _UnhandledInput(InputEvent @event)
