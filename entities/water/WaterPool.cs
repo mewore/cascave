@@ -4,7 +4,7 @@ using Godot;
 public class WaterPool : Area2D
 {
     private const int PARTICLE_RESOLUTION = 5;
-    private const int TOTAL_PARTICLES = 100;
+    private const int TOTAL_PARTICLES = 50;
     private const int PARTICLES_PER_EMITTER = TOTAL_PARTICLES / PARTICLE_RESOLUTION;
     private const int BLOB_COUNT = 200;
     private const float BLOB_TAKE_COOLDOWN = .01f;

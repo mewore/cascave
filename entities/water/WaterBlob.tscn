@@ -10,6 +10,7 @@ blend_mode = 1
 material = SubResource( 1 )
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
+collisionMask = 9
 
 [node name="Radius" type="Position2D" parent="."]
 position = Vector2( 2, -2 )

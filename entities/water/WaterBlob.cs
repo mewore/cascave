@@ -18,7 +18,7 @@ public class WaterBlob : Sprite
     private float lifetime = LIFETIME;
 
     [Export(PropertyHint.Layers2dPhysics)]
-    private uint collisionLayer = 1;
+    private uint collisionMask = 1;
     private bool launched = false;
     private Physics2DDirectSpaceState directSpaceState;
     private Physics2DShapeQueryParameters intersectParameters;
@@ -65,7 +65,16 @@ public class WaterBlob : Sprite
         Godot.Collections.Array result = directSpaceState.IntersectShape(intersectParameters, 1);
         if (result.Count > 0)
         {
-            QueueFree();
+            foreach (Godot.Collections.Dictionary collision in result)
+            {
+                var colliderOwner = (collision["collider"] as Node).Owner;
+                GD.Print("Collision: ", colliderOwner, " | ", colliderOwner.GetPath(), " | ", colliderOwner is Fire);
+                if (!(colliderOwner is Fire) || (colliderOwner as Fire).TakeDamage())
+                {
+                    QueueFree();
+                    break;
+                }
+            }
         }
         Position += frameMotion;
     }
@@ -80,8 +89,8 @@ public class WaterBlob : Sprite
         detectionShape.Radius = GetNode<Node2D>("Radius").Position.Length();
         intersectParameters = new Physics2DShapeQueryParameters();
         intersectParameters.ShapeRid = detectionShape.GetRid();
-        intersectParameters.CollisionLayer = collisionLayer;
-        intersectParameters.CollideWithAreas = false;
+        intersectParameters.CollisionLayer = collisionMask;
+        intersectParameters.CollideWithAreas = true;
         intersectParameters.CollideWithBodies = true;
         motion = (target - GlobalPosition).Normalized() * LAUNCH_SPEED;
     }

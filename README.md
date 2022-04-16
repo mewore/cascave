@@ -19,11 +19,14 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💙 Shooting water
 - [x] 💛 Simple music
 - [x] 💛 Running, jumping, dashing and landing SFX (with reverb, of course)
-  - Jump/Dash: [Source](https://www.zapsplat.com/music/male-breathing-fast-panting-panicking-1/) | [Source](https://www.zapsplat.com/music/breath-human-scared-fear-018/)
-  - Land/Step: [Source](https://www.zapsplat.com/music/a-pair-of-soccer-boots-set-down-on-stones-1/)
-- [ ] 💙💜💛 Torches to extinguish
+    - Jump/Dash: [Source](https://www.zapsplat.com/music/male-breathing-fast-panting-panicking-1/)
+      | [Source](https://www.zapsplat.com/music/breath-human-scared-fear-018/)
+    - Land/Step: [Source](https://www.zapsplat.com/music/a-pair-of-soccer-boots-set-down-on-stones-1/)
+- [x] 💙💜💛 Torches to extinguish
 - [ ] 💜 Simple character (32 x 48 px)
 - [ ] 💙💜 Simple environment (tile-based)
+- [ ] 💙 When all torches in the level are extinguished, a collider to the right of the map is disabled and the player
+  can proceed to the next level
 - [ ] 💚 First and second level
 - [ ] 💚 Credits
 - [ ] 💙 Basic instructions
@@ -31,6 +34,7 @@ Yet another generic puzzle platformer no one asked for.
 
 ### Basic features
 
+- [ ] 💙💜 Campfires to extinguish
 - [ ] 💙💜 Water indicator (5 squares which light up depending on how much water the player is carrying)
 - [ ] 💜 Better character
 - [ ] 💜 Better environment
@@ -41,10 +45,12 @@ Yet another generic puzzle platformer no one asked for.
 - [ ] 💙💜💛 Waterfalls
 - [ ] 💙💜 Enemies
 - [ ] 💚 5 total levels
+- [ ] 💙 Ability to play a specific level
 - [ ] 💟 Publish `0.2.0`
 
 ### Advanced features
 
+- [ ] 💙💜 Level selection icons
 - [ ] 💙 Another kind of transition
 - [ ] 💙 Player monologue
 - [ ] 💚 10 total levels

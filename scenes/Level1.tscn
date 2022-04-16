@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/Level.tscn" type="PackedScene" id=1]
 [ext_resource path="res://environment/AutoPolygon.tscn" type="PackedScene" id=2]
+[ext_resource path="res://entities/fire/Torch.tscn" type="PackedScene" id=3]
 [ext_resource path="res://environment/PolygonLine.tscn" type="PackedScene" id=4]
 [ext_resource path="res://environment/AutoLightOccluder.tscn" type="PackedScene" id=6]
 [ext_resource path="res://entities/water/WaterPool.tscn" type="PackedScene" id=7]
@@ -74,3 +75,14 @@ points = PoolVector2Array( -16, -80, -16, 280, 480, 280, 496, 296, 512, 332, 560
 
 [node name="AutoLightOccluder" parent="Game/World/CollisionPolygon2D2/AutoPolygon2" index="1" instance=ExtResource( 6 )]
 occluder = SubResource( 3 )
+
+[node name="Fire" type="Node2D" parent="Game" index="4"]
+
+[node name="Torch" parent="Game/Fire" index="0" instance=ExtResource( 3 )]
+position = Vector2( 184, 360 )
+
+[node name="Torch2" parent="Game/Fire" index="1" instance=ExtResource( 3 )]
+position = Vector2( 96, 360 )
+
+[node name="Torch3" parent="Game/Fire" index="2" instance=ExtResource( 3 )]
+position = Vector2( 292, 360 )

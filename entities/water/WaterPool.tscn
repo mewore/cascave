@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://environment/AutoPolygon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://entities/water/WaterPool.cs" type="Script" id=2]
-[ext_resource path="res://entities/water/water-particle.png" type="Texture" id=3]
+[ext_resource path="res://entities/water/magic-particle.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 44, 28 )
@@ -10,8 +10,11 @@ extents = Vector2( 44, 28 )
 [sub_resource type="CanvasItemMaterial" id=2]
 blend_mode = 1
 
+[sub_resource type="Curve" id=4]
+_data = [ Vector2( 0, 0.161364 ), 0.0, 12.4409, 0, 0, Vector2( 0.504902, 1 ), 1.85455, 0.0, 0, 0 ]
+
 [sub_resource type="Gradient" id=3]
-offsets = PoolRealArray( 0, 0.585635, 1 )
+offsets = PoolRealArray( 0, 0.248619, 1 )
 colors = PoolColorArray( 0.0351562, 0.844868, 1, 0, 0, 0.792527, 1, 1, 0, 0.839402, 1, 0 )
 
 [node name="WaterPool" type="Area2D"]
@@ -37,8 +40,9 @@ polygon = PoolVector2Array( -44, -28, 44, -28, 44, 28, -44, 28 )
 material = SubResource( 2 )
 texture = ExtResource( 3 )
 emission_shape = 2
-emission_rect_extents = Vector2( 5, 5 )
+emission_rect_extents = Vector2( 50, 25 )
 gravity = Vector2( 0, -30 )
+scale_amount_curve = SubResource( 4 )
 color_ramp = SubResource( 3 )
 hue_variation = 0.25
 hue_variation_random = 1.0
