@@ -183,11 +183,7 @@ public class Player : KinematicBody2D
         {
             if (!isJumping && Mathf.Max(now - lastWantedToJumpAt, now - lastOnFloorAt) <= JUMP_GRACE_PERIOD)
             {
-                lastOnFloorAt = lastWantedToJumpAt = now - JUMP_GRACE_PERIOD;
-                motion.y = -jumpSpeed;
-                isJumping = true;
-                jumpSound.PitchScale = 1f + (GD.Randf() - .5f) * .2f;
-                jumpSound.Play();
+                Jump();
             }
             else if (isJumping && Input.IsActionJustReleased(jumpInput))
             {
@@ -197,8 +193,10 @@ public class Player : KinematicBody2D
         }
         isJumping = isJumping && motion.y < 0f;
 
+        bool wasUnderwater = isUnderwater;
         bool wasOnFloor = isOnFloor;
         motion = MoveAndSlide(motion, Vector2.Up, true);
+        isUnderwater = IsUnderwater();
         isOnFloor = IsOnFloor();
 
         if (!isUnderwater && canControl && !wasOnFloor && isOnFloor)
@@ -222,6 +220,11 @@ public class Player : KinematicBody2D
             }
         }
 
+        if (!isJumping && wasUnderwater && !isUnderwater && Input.IsActionPressed(jumpInput))
+        {
+            Jump();
+        }
+
         if (canControl && sprite.Visible)
         {
             string targetAnimation = (Mathf.Abs(motion.x) < MAX_SPEED * .2f) ? "idle" : "walk";
@@ -239,6 +242,15 @@ public class Player : KinematicBody2D
                 animationPlayer.Play(targetAnimation);
             }
         }
+    }
+
+    private void Jump(float jumpPotency = 1f)
+    {
+        lastOnFloorAt = lastWantedToJumpAt = now - JUMP_GRACE_PERIOD;
+        motion.y = -jumpSpeed * jumpPotency;
+        isJumping = true;
+        jumpSound.PitchScale = 1f + (GD.Randf() - .5f) * .2f;
+        jumpSound.Play();
     }
 
     private void PlayStepSound()

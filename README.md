@@ -25,7 +25,7 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💙💜💛 Torches to extinguish
   - Fire sound: [Source](https://www.zapsplat.com/music/campfire-flames-burn-and-sizzle-in-wind/)
 - [x] 💜 Simple character (32 x 48 px)
-- [ ] 💙💜 Simple environment (tile-based)
+- [x] 💙💜 Simple environment (tile-based)
 - [ ] 💙 When all torches in the level are extinguished, a collider to the right of the map is disabled and the player
   can proceed to the next level
 - [ ] 💚 First and second level
@@ -41,6 +41,7 @@ Yet another generic puzzle platformer no one asked for.
 - [ ] 💜 Better environment
 - [ ] 💜 Font
 - [ ] 💙 Water splash particles
+- [ ] 💙💜 Lighting
 - [ ] 💛 Water splash SFX
 - [ ] 💙💛 When a water blob collides with fire, it turns into steam particles
 - [ ] 💙💜💛 Waterfalls

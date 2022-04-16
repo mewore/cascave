@@ -33,7 +33,8 @@ __meta__ = {
 }
 
 [node name="AutoPolygon2" parent="CollisionShape2D" instance=ExtResource( 1 )]
-color = Color( 0.360784, 0.588235, 0.72549, 0.321569 )
+color = Color( 0.360784, 0.588235, 0.72549, 0.419608 )
+texture = null
 polygon = PoolVector2Array( -44, -28, 44, -28, 44, 28, -44, 28 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]

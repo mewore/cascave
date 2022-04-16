@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://environment/AutoPolygon.cs" type="Script" id=1]
+[ext_resource path="res://environment/wall.png" type="Texture" id=2]
 
 [node name="AutoPolygon" type="Polygon2D"]
+texture = ExtResource( 2 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_lock_": true
