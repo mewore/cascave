@@ -35,7 +35,7 @@ Yet another generic puzzle platformer no one asked for.
 
 ### Basic features
 
-- [ ] 💙💜 Campfires to extinguish
+- [x] 💙💜 Campfires to extinguish
 - [ ] 💙💜 Water indicator (5 squares which light up depending on how much water the player is carrying)
 - [ ] 💜 Better character
 - [ ] 💜 Better environment
@@ -48,10 +48,13 @@ Yet another generic puzzle platformer no one asked for.
 - [ ] 💙💜 Enemies
 - [ ] 💚 5 total levels
 - [ ] 💙 Ability to play a specific level
+- [ ] 💜 Cover art
+- [ ] 💜 Icon
 - [ ] 💟 Publish `0.2.0`
 
 ### Advanced features
 
+- [ ] 💜 Main menu background
 - [ ] 💙💜 Simple character monologue
 - [ ] 💙 Water surface waviness
 - [ ] 💙💜 Level selection icons
@@ -62,6 +65,7 @@ Yet another generic puzzle platformer no one asked for.
 
 ### Expert features
 
+- [ ] 💜 Web page background
 - [ ] 💙 Rigid bodies
 - [ ] 💙💜💚 Boss
 - [ ] 💙💜💚 Mid-boss
