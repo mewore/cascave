@@ -50,13 +50,15 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💛 Water splash SFX - [Source](https://www.zapsplat.com/music/2-foot-deep-water-in-bath-splashes-movements/)
 - [x] 💙💛 Muffled sounds when underwater
 - [x] 💙💛 Cave ambient sounds
-  - [Source](https://www.zapsplat.com/music/cave-ambience-small-chamber-water-flow-and-drip-wind-howling-through-tunnel-system/)
-- [ ] 💙💛 When a water blob collides with fire, it turns into steam particles
+    - [Source](https://www.zapsplat.com/music/cave-ambience-small-chamber-water-flow-and-drip-wind-howling-through-tunnel-system/)
+- [x] 💙💛 When a water blob collides with fire, it turns into steam particles
+  - [Source](https://www.zapsplat.com/music/pan-of-boiling-water-boil-over-spill-onto-hot-hob-and-sizzle-1/)
 - [ ] 💙💜💛 Waterfalls
 - [ ] ❌ 💙💜 Enemies - eh
 - [ ] 💚 5 total levels
 - [ ] 💙 Ability to play a specific level
 - [ ] 💙 Timer
+- [ ] 💙 Exit button
 - [ ] 💙 Track best time per level
 - [ ] 💙 Track used water per level (less = better)
 - [ ] 💙 Difficulty settings

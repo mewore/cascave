@@ -20,6 +20,7 @@ public class WaterBlob : Sprite
     [Export(PropertyHint.Layers2dPhysics)]
     private uint collisionMask = 1;
     private bool launched = false;
+    private bool following = true;
     private Physics2DDirectSpaceState directSpaceState;
     private Physics2DShapeQueryParameters intersectParameters;
     private CircleShape2D detectionShape;
@@ -36,7 +37,7 @@ public class WaterBlob : Sprite
         {
             FlyAsProjectile(delta);
         }
-        else
+        if (following)
         {
             FollowTarget(delta);
         }
@@ -72,10 +73,19 @@ public class WaterBlob : Sprite
             foreach (Godot.Collections.Dictionary collision in result)
             {
                 var colliderOwner = (collision["collider"] as Node).Owner;
-                if (!(colliderOwner is Fire) || (colliderOwner as Fire).TakeDamage())
+                if (!(colliderOwner is Fire))
                 {
                     QueueFree();
                     break;
+                }
+                else if ((colliderOwner as Fire).TakeDamage())
+                {
+                    GetNode<AudioStreamPlayer2D>("SizzleSound").Play();
+                    GetNode<CPUParticles2D>("Steam").Emitting = true;
+                    GetNode<CPUParticles2D>("Steam").Direction = motion.Normalized();
+                    GetNode<Timer>("Timer").Start();
+                    SelfModulate = new Color(0f, 0f, 0f, 0f);
+                    launched = false;
                 }
             }
         }
@@ -87,6 +97,7 @@ public class WaterBlob : Sprite
     public void Launch(Vector2 target)
     {
         launched = true;
+        following = false;
         directSpaceState = Physics2DServer.SpaceGetDirectState(GetWorld2d().Space);
         detectionShape = new CircleShape2D();
         detectionShape.Radius = GetNode<Node2D>("Radius").Position.Length();
@@ -108,4 +119,6 @@ public class WaterBlob : Sprite
             ? ACCELERATION
             : -ACCELERATION;
     }
+
+    public void _on_Timer_timeout() => QueueFree();
 }

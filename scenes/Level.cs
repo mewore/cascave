@@ -185,7 +185,7 @@ public class Level : Node2D
     {
         var splash = waterSplashScene.Instance<WaterSplash>();
         splash.Position = position;
-        splash.Direction = new Vector2(impactDirection.x, -Mathf.Abs(impactDirection.y));
+        splash.Direction = new Vector2(impactDirection.x, -Mathf.Abs(impactDirection.y)).Normalized();
         splash.Intensity = intensity;
         waterSplashContainer.AddChild(splash);
 
