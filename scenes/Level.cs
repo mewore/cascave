@@ -87,6 +87,10 @@ public class Level : Node2D
     public override void _Process(float delta)
     {
         GetTree().Paused = overlay.Transitioning || paused;
+        if (GetTree().Paused)
+        {
+            AudioServer.SetBusEffectEnabled(0, 0, false);
+        }
         waterIndicatorLayer.FollowViewportEnable = !(bool)ProjectSettings.GetSetting(WaterIndicator.FOLLOW_MOUSE_SETTING);
     }
 
@@ -181,7 +185,7 @@ public class Level : Node2D
     {
         var splash = waterSplashScene.Instance<WaterSplash>();
         splash.Position = position;
-        splash.Direction = new Vector2(impactDirection.x, Mathf.Abs(impactDirection.y));
+        splash.Direction = new Vector2(impactDirection.x, -Mathf.Abs(impactDirection.y));
         splash.Intensity = intensity;
         waterSplashContainer.AddChild(splash);
 

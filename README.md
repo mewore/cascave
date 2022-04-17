@@ -48,7 +48,7 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💙 Water splash particles
 - [x] 💙💜 Lighting
 - [x] 💛 Water splash SFX - [Source](https://www.zapsplat.com/music/2-foot-deep-water-in-bath-splashes-movements/)
-- [ ] 💙💛 Muffled sounds when underwater
+- [x] 💙💛 Muffled sounds when underwater
 - [ ] 💙💛 Cave ambient sounds
 - [ ] 💙💛 When a water blob collides with fire, it turns into steam particles
 - [ ] 💙💜💛 Waterfalls

@@ -124,6 +124,9 @@ position = Vector2( 0, -192 )
 [node name="TopLeftLimit" type="Position2D" parent="."]
 position = Vector2( -4, -40 )
 
+[node name="Head" type="Position2D" parent="."]
+position = Vector2( 0, -32 )
+
 [node name="Center" type="Position2D" parent="."]
 position = Vector2( 0, -16 )
 

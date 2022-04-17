@@ -55,6 +55,7 @@ public class Player : KinematicBody2D
     private double landVolumeSensitivity = 20;
 
     private Node2D center;
+    private Node2D head;
 
     [Export(PropertyHint.Layers2dPhysics)]
     private uint waterLayer = 0;
@@ -128,6 +129,7 @@ public class Player : KinematicBody2D
             jumpInput += "_" + inputSuffix;
         }
         center = GetNode<Node2D>("Center");
+        head = GetNode<Node2D>("Head");
 
         var waterDetectionShapeNode = GetNode<CollisionShape2D>("WaterDetectionShape");
         directSpaceState = Physics2DServer.SpaceGetDirectState(GetWorld2d().Space);
@@ -157,6 +159,7 @@ public class Player : KinematicBody2D
     public override void _Process(float delta)
     {
         outlineSprite.Frame = sprite.Frame;
+        AudioServer.SetBusEffectEnabled(0, 0, IsUnderwater(head.Position));
     }
 
     public override void _ExitTree()
@@ -164,7 +167,9 @@ public class Player : KinematicBody2D
         waterDetectionShape.Unreference();
     }
 
-    private bool IsUnderwater() => directSpaceState.IntersectPoint(GlobalPosition + center.Position, 1, null, waterLayer, false, true).Count > 0;
+    private bool IsUnderwater() => IsUnderwater(center.Position);
+
+    private bool IsUnderwater(Vector2 position) => directSpaceState.IntersectPoint(GlobalPosition + position, 1, null, waterLayer, false, true).Count > 0;
 
     public void Move(float delta, bool canControl)
     {
