@@ -53,7 +53,7 @@ Yet another generic puzzle platformer no one asked for.
     - [Source](https://www.zapsplat.com/music/cave-ambience-small-chamber-water-flow-and-drip-wind-howling-through-tunnel-system/)
 - [x] 💙💛 When a water blob collides with fire, it turns into steam particles
   - [Source](https://www.zapsplat.com/music/pan-of-boiling-water-boil-over-spill-onto-hot-hob-and-sizzle-1/)
-- [ ] 💙💜💛 Waterfalls
+- [x] 💙💜💛 Waterfalls
 - [ ] ❌ 💙💜 Enemies - eh
 - [ ] 💚 5 total levels
 - [ ] 💙 Ability to play a specific level

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scenes/Level.tscn" type="PackedScene" id=1]
 [ext_resource path="res://environment/AutoPolygon.tscn" type="PackedScene" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://environment/WallPolygon.tscn" type="PackedScene" id=8]
 [ext_resource path="res://environment/crystal/Crystal.tscn" type="PackedScene" id=9]
 [ext_resource path="res://ui/small-theme.tres" type="Theme" id=10]
+[ext_resource path="res://environment/Waterfall.tscn" type="PackedScene" id=11]
 
 [sub_resource type="OccluderPolygon2D" id=1]
 cull_mode = 2
@@ -33,6 +34,9 @@ polygon = PoolVector2Array( 420, 68, 772, 60, 816, 128, 736, 124, 716, 220, 712,
 [node name="WallPolygon" parent="Background/ParallaxBackground/FarMiddle" index="2" instance=ExtResource( 8 )]
 position = Vector2( -196, -184 )
 polygon = PoolVector2Array( 144, 48, 320, 64, 428, 56, 428, 176, 432, 224, 420, 264, 404, 244, 400, 212, 384, 200, 356, 120, 348, 200, 328, 224, 316, 236, 292, 136 )
+
+[node name="Waterfall" parent="Background/ParallaxBackground/FarMiddle" index="3" instance=ExtResource( 11 )]
+position = Vector2( 296, 82 )
 
 [node name="Polygon2D2" type="Polygon2D" parent="Background/ParallaxBackground/Middle" index="0"]
 position = Vector2( -48, -104 )
