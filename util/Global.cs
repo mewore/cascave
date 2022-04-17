@@ -4,6 +4,22 @@ using Godot;
 
 public class Global : Node
 {
+    [Signal]
+    public delegate void NewLightingSetting(LightingSetting lightingSetting);
+
+    public const string LIGHTING_QUALITY_SETTING = "application/game/lighting_quality";
+    public static LightingSetting CurrentLightingSetting
+    {
+        get => (LightingSetting)ProjectSettings.GetSetting(LIGHTING_QUALITY_SETTING); set
+        {
+            ProjectSettings.SetSetting(LIGHTING_QUALITY_SETTING, (int)value);
+            if (singleton != null)
+            {
+                singleton.EmitSignal(nameof(NewLightingSetting), value);
+            }
+        }
+    }
+
     private const string SAVE_DIRECTORY = "user://";
     private const string SAVE_FILE_PREFIX = "save-";
     private const string SAVE_FILE_SUFFIX = ".json";
@@ -36,8 +52,12 @@ public class Global : Node
 
     public static bool ReturningToMenu = false;
 
+    private static Global singleton;
+    public static Global SINGLETON => singleton;
+
     public override void _Ready()
     {
+        singleton = this;
         // if (save_file_exists(SETTINGS_SAVE_FILE))
         // {
         //     settings.initialize_from_dictionary(load_data(SETTINGS_SAVE_FILE));

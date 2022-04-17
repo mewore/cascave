@@ -16,10 +16,12 @@ config/icon="res://icon.png"
 game/player_retains_water=true
 game/water_indicator_follows_mouse=false
 game/fire_light_flickers=false
+game/lighting_quality=3
 
 [autoload]
 
 GlobalSound="*res://audio/GlobalSound.tscn"
+Global="*res://util/Global.cs"
 
 [display]
 

@@ -51,6 +51,27 @@ size_flags_horizontal = 3
 theme = ExtResource( 3 )
 text = "Keep this disabled if you have epilepsy or have any respect for your eyes."
 
+[node name="Lighting" type="HBoxContainer" parent="."]
+margin_top = 112.0
+margin_right = 300.0
+margin_bottom = 133.0
+
+[node name="Label" type="Label" parent="Lighting"]
+margin_top = 3.0
+margin_right = 148.0
+margin_bottom = 18.0
+size_flags_horizontal = 3
+text = "lighting"
+align = 2
+
+[node name="LightingDropdown" type="OptionButton" parent="Lighting"]
+margin_left = 152.0
+margin_right = 300.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+text = "With shadows"
+
 [connection signal="toggled" from="RetainWater/RetainWaterButton" to="." method="_on_RetainWaterButton_toggled"]
 [connection signal="toggled" from="WaterIndicatorFollowsMouseButton" to="." method="_on_WaterIndicatorFollowsMouseButton_toggled"]
 [connection signal="toggled" from="FireLightFlickersButton" to="." method="_on_FireLightFlickersButton_toggled"]
+[connection signal="item_selected" from="Lighting/LightingDropdown" to="." method="_on_LightingDropdown_item_selected"]

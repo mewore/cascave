@@ -46,7 +46,7 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💜 Cursor
 - [x] 💙 Cast rays to see whether the player can take water
 - [x] 💙 Water splash particles
-- [ ] 💙💜 Lighting
+- [x] 💙💜 Lighting
 - [ ] 💛 Water splash SFX
 - [ ] 💙💛 When a water blob collides with fire, it turns into steam particles
 - [ ] 💙💜💛 Waterfalls
@@ -59,6 +59,7 @@ Yet another generic puzzle platformer no one asked for.
 
 ### Advanced features
 
+- [ ] 💙 Save game settings
 - [ ] 💛 Proper music
 - [ ] 💜 Main menu background
 - [ ] 💙💜 Simple character monologue

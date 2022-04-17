@@ -7,12 +7,13 @@ public class GameSettingsNode : VBoxContainer
     private Button retainWaterButton;
     private Button waterIndicatorFollowsMouseButton;
     private Button fireLightFlickersButton;
+    private OptionButton lightingDropdown;
 
     public bool Editable
     {
         set
         {
-            retainWaterButton.Disabled = waterIndicatorFollowsMouseButton.Disabled = fireLightFlickersButton.Disabled = !value;
+            retainWaterButton.Disabled = waterIndicatorFollowsMouseButton.Disabled = fireLightFlickersButton.Disabled = lightingDropdown.Disabled = !value;
         }
     }
 
@@ -29,6 +30,13 @@ public class GameSettingsNode : VBoxContainer
 
         fireLightFlickersButton = GetNode<Button>("FireLightFlickersButton");
         fireLightFlickersButton.Pressed = (bool)ProjectSettings.GetSetting(Fire.LIGHT_FLICKERS_SETTING);
+
+        lightingDropdown = GetNode<OptionButton>("Lighting/LightingDropdown");
+        lightingDropdown.AddItem("Disabled", (int)LightingSetting.DISABLED);
+        lightingDropdown.AddItem("Sprites", (int)LightingSetting.SPRITES);
+        lightingDropdown.AddItem("No shadows", (int)LightingSetting.NO_SHADOWS);
+        lightingDropdown.AddItem("With shadows", (int)LightingSetting.WITH_SHADOWS);
+        lightingDropdown.Select((int)Global.CurrentLightingSetting);
     }
 
     public void UpdateRetainWaterLabel()
@@ -51,5 +59,10 @@ public class GameSettingsNode : VBoxContainer
     public void _on_FireLightFlickersButton_toggled(bool newValue)
     {
         ProjectSettings.SetSetting(Fire.LIGHT_FLICKERS_SETTING, newValue);
+    }
+
+    public void _on_LightingDropdown_item_selected(int index)
+    {
+        Global.CurrentLightingSetting = (LightingSetting)index;
     }
 }

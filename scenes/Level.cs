@@ -18,12 +18,13 @@ public class Level : Node2D
     private Vector2 winBottomRightLimit;
     private CanvasLayer waterIndicatorLayer;
     private WaterIndicator waterIndicator;
+    private CanvasItem canvasModulate;
 
     [Export]
-    private Texture cursorTexture;
+    private Texture cursorTexture = null;
 
     [Export]
-    private PackedScene waterSplashScene;
+    private PackedScene waterSplashScene = null;
     public Node waterSplashContainer;
 
     public override void _Ready()
@@ -67,6 +68,10 @@ public class Level : Node2D
         SetCursor(true);
 
         waterSplashContainer = GetNode<Node>("Game/WaterSplashes");
+
+        canvasModulate = gameNode.GetNode<CanvasItem>("CanvasModulate");
+        ApplyLightingSetting(Global.CurrentLightingSetting);
+        Global.SINGLETON.Connect(nameof(Global.NewLightingSetting), this, "ApplyLightingSetting");
     }
 
     public override void _Process(float delta)
@@ -106,6 +111,11 @@ public class Level : Node2D
                 SetCursor(!pauseMenu.Visible);
             }
         }
+    }
+
+    public void ApplyLightingSetting(LightingSetting setting)
+    {
+        canvasModulate.Visible = setting != LightingSetting.DISABLED;
     }
 
     public void _on_Overlay_FadeOutDone()

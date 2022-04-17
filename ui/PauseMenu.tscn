@@ -21,9 +21,9 @@ theme = ExtResource( 3 )
 [node name="SettingsMenu" parent="Container" instance=ExtResource( 2 )]
 visible = false
 margin_left = 90.0
-margin_top = 38.0
+margin_top = 26.0
 margin_right = 390.0
-margin_bottom = 231.0
+margin_bottom = 244.0
 
 [node name="SettingsDoneButton" type="Button" parent="Container/SettingsMenu"]
 margin_top = 172.0

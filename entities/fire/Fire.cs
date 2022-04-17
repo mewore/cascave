@@ -23,6 +23,7 @@ public class Fire : Node2D
     private float lightEnergyChangeSpeed = 5f;
     private float originalLightEnergy;
     private Light2D light;
+    private Sprite lightSprite;
     private bool ShouldInduceSeizures => (bool)ProjectSettings.GetSetting(LIGHT_FLICKERS_SETTING);
 
     public override void _Ready()
@@ -35,11 +36,19 @@ public class Fire : Node2D
         log10HitPoints = Math.Log10(hitPoints);
         light = GetNode<Light2D>("Light2D");
         originalLightEnergy = light.Energy;
+        lightSprite = GetNode<Sprite>("LightSprite");
+        ApplyLightingSetting(Global.CurrentLightingSetting);
+        Global.SINGLETON.Connect(nameof(Global.NewLightingSetting), this, "ApplyLightingSetting");
     }
 
     public override void _Process(float delta)
     {
-        if (ShouldInduceSeizures && currentHitPoints > 0)
+        if (currentHitPoints <= 0)
+        {
+            return;
+        }
+
+        if (ShouldInduceSeizures)
         {
             float averageLightEnergy = originalLightEnergy * currentHitPoints / hitPoints;
             float variation = averageLightEnergy * lightEnergyVariation * .5f;
@@ -47,7 +56,19 @@ public class Fire : Node2D
                 light.Energy + ((float)Math.Pow(GD.Randf() * 2 - 1f, 3) * .5f) * averageLightEnergy * lightEnergyChangeSpeed * delta,
                 Mathf.Max(0f, averageLightEnergy - variation),
                 averageLightEnergy + variation);
+            lightSprite.Modulate = new Color(lightSprite.Modulate, light.Energy);
         }
+    }
+
+    public void ApplyLightingSetting(LightingSetting setting)
+    {
+        if (currentHitPoints <= 0)
+        {
+            return;
+        }
+        light.Visible = setting == LightingSetting.NO_SHADOWS || setting == LightingSetting.WITH_SHADOWS;
+        light.ShadowEnabled = setting == LightingSetting.WITH_SHADOWS;
+        lightSprite.Visible = setting == LightingSetting.SPRITES;
     }
 
     private CPUParticles2D[] ReplicateParticles(CPUParticles2D original)
@@ -76,11 +97,13 @@ public class Fire : Node2D
         if (currentHitPoints <= 0)
         {
             light.QueueFree();
+            lightSprite.QueueFree();
             fireSound.Stop();
         }
         else
         {
             light.Energy = originalLightEnergy * currentHitPoints / hitPoints;
+            lightSprite.Modulate = new Color(lightSprite.Modulate, light.Energy);
             fireSound.VolumeDb = (float)(originalVolume + Math.Log10(currentHitPoints) - log10HitPoints);
         }
         return true;
