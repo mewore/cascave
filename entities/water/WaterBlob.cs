@@ -30,12 +30,20 @@ public class WaterBlob : Sprite
         sourcePosition = GlobalPosition;
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
         if (launched)
         {
-            return;
+            FlyAsProjectile(delta);
         }
+        else
+        {
+            FollowTarget(delta);
+        }
+    }
+
+    private void FollowTarget(float delta)
+    {
         Vector2 targetPosition = returning ? sourcePosition : Player.GlobalPosition + new Vector2(GD.Randf() - .5f, GD.Randf() - .5f) * POSITION_RANDOMIZATION;
         Vector2 positionDifference = targetPosition - GlobalPosition;
         motion += new Vector2(getAccelerationComponent(motion.x, positionDifference.x), getAccelerationComponent(motion.y, positionDifference.y)) * delta;
@@ -52,12 +60,8 @@ public class WaterBlob : Sprite
         }
     }
 
-    public override void _PhysicsProcess(float delta)
+    private void FlyAsProjectile(float delta)
     {
-        if (!launched)
-        {
-            return;
-        }
         motion = new Vector2(motion.x, motion.y + GRAVITY * delta);
         var frameMotion = motion * delta;
         intersectParameters.Transform = GlobalTransform;
@@ -96,14 +100,12 @@ public class WaterBlob : Sprite
 
     private static float getAccelerationComponent(float motion, float positionDifference)
     {
-        var accelerate = motion > 0 ? ACCELERATION : -ACCELERATION;
-        var motionSign = Mathf.Sign(motion);
-        if (motionSign == 0)
+        if (positionDifference < 0f)
         {
-            motionSign = Mathf.Sign(positionDifference);
+            return -getAccelerationComponent(-motion, -positionDifference);
         }
-        return (motionSign == Mathf.Sign(positionDifference) && motion * motion / ACCELERATION < Mathf.Abs(positionDifference))
-            ? accelerate
-            : -accelerate;
+        return motion < 0f || motion * motion / (2 * ACCELERATION) < positionDifference
+            ? ACCELERATION
+            : -ACCELERATION;
     }
 }

@@ -37,14 +37,8 @@ position = Vector2( -48, -104 )
 texture = ExtResource( 5 )
 polygon = PoolVector2Array( 336, 188, 460, 164, 520, 176, 544, 192, 516, 220, 505.337, 220, 496, 236, 487.856, 220, 472, 236, 468, 272, 472, 368, 412, 368, 424, 292, 420, 248, 412, 220, 407.425, 219.492, 404, 236, 397.046, 218.338, 381.617, 216.624, 376, 232, 370.278, 215.364, 340, 212 )
 
-[node name="Polygon2D3" type="Polygon2D" parent="Background/ParallaxBackground/CloseMiddle" index="0"]
-position = Vector2( -328, -16 )
-texture = ExtResource( 5 )
-polygon = PoolVector2Array( 468, 272, 468, 288, 464, 312, 484, 384, 468, 376, 452, 376, 424, 380, 412, 388, 424, 292, 416, 224, 484, 224 )
-
-[node name="PolygonLine2" parent="Background/ParallaxBackground/CloseMiddle/Polygon2D3" index="0" instance=ExtResource( 4 )]
-points = PoolVector2Array( 468, 272, 468, 288, 464, 312, 484, 384, 468, 376, 452, 376, 424, 380, 412, 388, 424, 292, 416, 224, 484, 224, 468, 272 )
-default_color = Color( 0.435294, 0.490196, 0.54902, 1 )
+[node name="WallPolygon" parent="Background/ParallaxBackground/Close" index="0" instance=ExtResource( 8 )]
+polygon = PoolVector2Array( 248, 436, 256, 456, 260, 500, 260, 536, 244, 556, 264, 572, 324, 564, 316, 532, 304, 500, 308, 464, 320, 448, 308, 416, 256, 408 )
 
 [node name="MouseCamera" parent="." index="1"]
 position = Vector2( 132, 160 )
@@ -54,6 +48,9 @@ position = Vector2( 28, 352 )
 
 [node name="WaterPool" parent="Game" index="1" instance=ExtResource( 7 )]
 position = Vector2( 556, 392 )
+
+[node name="AutoPolygon2" parent="Game/WaterPool/CollisionShape2D" index="0"]
+polygon = PoolVector2Array( -48, -32, 48, -32, 48, 32, -48, 32 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Game/World" index="0"]
 position = Vector2( 40, 112 )
@@ -88,8 +85,6 @@ points = PoolVector2Array( 128, 64, 168, 80, 179.449, 118.482, 213.187, 131.663,
 [node name="AutoLightOccluder" parent="Game/World/CollisionPolygon2D3/AutoPolygon2" index="1" instance=ExtResource( 6 )]
 occluder = SubResource( 2 )
 
-[node name="Fire" type="Node2D" parent="Game" index="4"]
-
 [node name="Torch" parent="Game/Fire" index="0" instance=ExtResource( 3 )]
 position = Vector2( 184, 352 )
 
@@ -104,3 +99,5 @@ tile_data = PoolIntArray( -393179, 0, 0, -393178, 0, 1, -393177, 0, 2, -327643, 
 
 [node name="PlayerLimit" parent="Game" index="7"]
 position = Vector2( 624, 450 )
+
+[editable path="Game/WaterPool"]

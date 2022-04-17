@@ -5,7 +5,7 @@
 [ext_resource path="res://entities/water/magic-particle.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 44, 28 )
+extents = Vector2( 48, 32 )
 
 [sub_resource type="CanvasItemMaterial" id=2]
 blend_mode = 1
@@ -35,7 +35,7 @@ __meta__ = {
 [node name="AutoPolygon2" parent="CollisionShape2D" instance=ExtResource( 1 )]
 color = Color( 0.360784, 0.588235, 0.72549, 0.419608 )
 texture = null
-polygon = PoolVector2Array( -44, -28, 44, -28, 44, 28, -44, 28 )
+polygon = PoolVector2Array( -96, -64, 96, -64, 96, 64, -96, 64 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 material = SubResource( 2 )

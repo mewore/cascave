@@ -28,7 +28,7 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💙💜 Simple environment (tile-based)
 - [x] 💙 When all torches in the level are extinguished, a collider to the right of the map is disabled and the player
   can proceed to the next level
-- [ ] 💚 First and second level
+- [x] 💚 First and second level
 - [ ] 💚 Credits
 - [ ] 💙 Basic instructions
 - [ ] 💟 Publish `0.1.0`
@@ -52,6 +52,7 @@ Yet another generic puzzle platformer no one asked for.
 
 ### Advanced features
 
+- [ ] 💙💜 Simple character monologue
 - [ ] 💙 Water surface waviness
 - [ ] 💙💜 Level selection icons
 - [ ] 💙 Another kind of transition

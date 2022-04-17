@@ -46,6 +46,10 @@ public class Level : Node2D
             }
             return count;
         };
+
+        var camera = GetNode<Camera2D>("MouseCamera");
+        camera.LimitRight = (int)bottomRightLimit.x;
+        camera.LimitBottom = (int)bottomRightLimit.y;
     }
 
     public override void _Process(float delta)

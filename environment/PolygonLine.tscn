@@ -4,7 +4,7 @@
 
 [node name="PolygonLine" type="Line2D"]
 width = 1.0
-default_color = Color( 0.701961, 0.8, 0.901961, 1 )
+default_color = Color( 0.588235, 0.67451, 0.807843, 1 )
 joint_mode = 1
 script = ExtResource( 1 )
 __meta__ = {
