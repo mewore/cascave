@@ -105,6 +105,9 @@ position = Vector2( 116, 246 )
 [node name="Crystal2" parent="Game/Decorations" index="1" instance=ExtResource( 9 )]
 position = Vector2( 424, 328 )
 
+[node name="Crystal3" parent="Game/Decorations" index="2" instance=ExtResource( 9 )]
+position = Vector2( 610, 254 )
+
 [node name="WaterTip" type="Label" parent="InGameUi/Tips" index="0"]
 margin_left = 480.0
 margin_top = 340.0

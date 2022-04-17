@@ -9,7 +9,7 @@
 [ext_resource path="res://entities/player/animations/jump_side.tres" type="Animation" id=7]
 [ext_resource path="res://entities/player/animations/fall_side.tres" type="Animation" id=8]
 [ext_resource path="res://entities/water/WaterBlob.tscn" type="PackedScene" id=9]
-[ext_resource path="res://entities/player/jump.ogg" type="AudioStream" id=10]
+[ext_resource path="res://entities/player/jump.wav" type="AudioStream" id=10]
 [ext_resource path="res://entities/player/land.wav" type="AudioStream" id=11]
 [ext_resource path="res://entities/player/player-outline.png" type="Texture" id=12]
 
