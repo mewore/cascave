@@ -74,16 +74,24 @@ margin_bottom = 249.0
 [node name="Background" type="CanvasLayer" parent="."]
 layer = -1
 
-[node name="Credits" type="Label" parent="."]
-margin_left = 364.0
-margin_top = 252.0
-margin_right = 478.0
-margin_bottom = 268.0
-text = "[CREDITS]"
+[node name="Credits" type="Node2D" parent="."]
+position = Vector2( 480, 268 )
+scale = Vector2( 0.5, 0.5 )
+
+[node name="Credits" type="Label" parent="Credits"]
+margin_left = -252.0
+margin_top = -176.0
+margin_right = -3.0
+margin_bottom = -1.0
+text = "Sounds from ZapSplat
+***
+Game engine: Godot
+\"Music\" made in LMMS
+Sounds edited in Audacity
+Art made in Krita and Aseprite
+IDEs used: VSCode and IntelliJ IDEA"
 align = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
+valign = 2
 
 [connection signal="pressed" from="Container/VBoxContainer/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="Container/VBoxContainer/ContinueButton" to="." method="_on_ContinueButton_pressed"]

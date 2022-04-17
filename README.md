@@ -29,7 +29,7 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💙 When all torches in the level are extinguished, a collider to the right of the map is disabled and the player
   can proceed to the next level
 - [x] 💚 First and second level
-- [ ] 💚 Credits
+- [x] 💚 Credits
 - [ ] 💙 Basic instructions
 - [ ] 💟 Publish `0.1.0`
 
