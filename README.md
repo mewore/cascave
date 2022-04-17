@@ -45,7 +45,7 @@ Yet another generic puzzle platformer no one asked for.
   - [Rubik](https://www.1001freefonts.com/rubik.font)
 - [x] 💜 Cursor
 - [x] 💙 Cast rays to see whether the player can take water
-- [ ] 💙 Water splash particles
+- [x] 💙 Water splash particles
 - [ ] 💙💜 Lighting
 - [ ] 💛 Water splash SFX
 - [ ] 💙💛 When a water blob collides with fire, it turns into steam particles

@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://environment/light.png" type="Texture" id=1]
 [ext_resource path="res://environment/crystal/crystal-in-wall.png" type="Texture" id=2]
 [ext_resource path="res://environment/crystal/Crystal.cs" type="Script" id=3]
+
+[sub_resource type="CanvasItemMaterial" id=1]
+blend_mode = 1
 
 [node name="Crystal" type="Sprite"]
 texture = ExtResource( 2 )
@@ -18,3 +21,9 @@ range_layer_max = 4
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 0.113725, 0.309804, 0.380392, 1 )
+material = SubResource( 1 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 1 )

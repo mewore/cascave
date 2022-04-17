@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://entities/player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://util/MouseCamera.cs" type="Script" id=2]
@@ -10,11 +10,13 @@
 [ext_resource path="res://scenes/Level.cs" type="Script" id=8]
 [ext_resource path="res://environment/wall.png" type="Texture" id=9]
 [ext_resource path="res://ui/WaterIndicator.tscn" type="PackedScene" id=10]
+[ext_resource path="res://entities/water/WaterSplash.tscn" type="PackedScene" id=11]
 
 [node name="Level" type="Node2D"]
 pause_mode = 2
 script = ExtResource( 8 )
 cursorTexture = ExtResource( 5 )
+waterSplashScene = ExtResource( 11 )
 
 [node name="Background" type="CanvasLayer" parent="."]
 layer = -1
@@ -104,6 +106,8 @@ position = Vector2( 800, 450 )
 [node name="CanvasModulate" type="CanvasModulate" parent="Game"]
 color = Color( 0.0627451, 0.0588235, 0.109804, 1 )
 
+[node name="WaterSplashes" type="Node2D" parent="Game"]
+
 [node name="Overlay" parent="." instance=ExtResource( 7 )]
 
 [node name="PauseUi" type="CanvasLayer" parent="."]
@@ -124,6 +128,7 @@ layer = 6
 [node name="WaterIndicator" parent="WaterIndicatorUi" instance=ExtResource( 10 )]
 z_index = 8
 
+[connection signal="Splash" from="Game/Player" to="." method="_on_Player_Splash"]
 [connection signal="FadeOutDone" from="Overlay" to="." method="_on_Overlay_FadeOutDone"]
 [connection signal="RestartLevelRequested" from="PauseUi/PauseMenu" to="." method="_on_PauseMenu_RestartLevelRequested"]
 [connection signal="ResumeRequested" from="PauseUi/PauseMenu" to="." method="_on_PauseMenu_ResumeRequested"]

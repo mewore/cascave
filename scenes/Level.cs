@@ -22,6 +22,10 @@ public class Level : Node2D
     [Export]
     private Texture cursorTexture;
 
+    [Export]
+    private PackedScene waterSplashScene;
+    public Node waterSplashContainer;
+
     public override void _Ready()
     {
         overlay = GetNode<Overlay>("Overlay");
@@ -61,6 +65,8 @@ public class Level : Node2D
         waterIndicator.Player = player;
 
         SetCursor(true);
+
+        waterSplashContainer = GetNode<Node>("Game/WaterSplashes");
     }
 
     public override void _Process(float delta)
@@ -149,6 +155,15 @@ public class Level : Node2D
         targetScene = MAIN_MENU_PATH;
         pauseMenu.Editable = false;
         overlay.FadeOutReverse();
+    }
+
+    public void _on_Player_Splash(Vector2 position, Vector2 direction, float intensity)
+    {
+        var splash = waterSplashScene.Instance<WaterSplash>();
+        splash.Position = position;
+        splash.Direction = direction;
+        splash.Intensity = intensity;
+        waterSplashContainer.AddChild(splash);
     }
 
     private void SetCursor(bool isCustom)

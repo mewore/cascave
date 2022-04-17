@@ -4,6 +4,9 @@ using Godot;
 
 public class Player : KinematicBody2D
 {
+    [Signal]
+    delegate void Splash(Vector2 position, Vector2 direction, float intensity);
+
     public const string RETAIN_WATER_SETTING = "application/game/player_retains_water";
     private const int MAX_WATER_BLOBS = 50;
 
@@ -259,6 +262,11 @@ public class Player : KinematicBody2D
             Jump();
         }
 
+        if (wasUnderwater != isUnderwater && Mathf.Abs(motion.y) > MAX_FALL_SPEED * .2f)
+        {
+            EmitSignal(nameof(Splash), center.GlobalPosition, motion.y < 0f ? motion : new Vector2(motion.x, -motion.y), Mathf.Abs(motion.y / MAX_FALL_SPEED));
+        }
+
         if (canControl && sprite.Visible)
         {
             string targetAnimation = (Mathf.Abs(motion.x) < MAX_SPEED * .2f) ? "idle" : "run";
@@ -307,12 +315,14 @@ public class Player : KinematicBody2D
         }
 
         int usedBlobs = Mathf.Min(MAX_DASH_COST, waterBlobs.Count);
-        motion = lastDesiredMotion.Normalized() * Mathf.Lerp(minDashSpeed, maxDashSpeed, (float)usedBlobs / MAX_DASH_COST);
+        float dashStrength = (float)usedBlobs / MAX_DASH_COST;
+        motion = lastDesiredMotion.Normalized() * Mathf.Lerp(minDashSpeed, maxDashSpeed, dashStrength);
         for (int blobIndex = 0; blobIndex < usedBlobs; blobIndex++)
         {
             waterBlobs.Pop().QueueFree();
         }
         dashSound.Play();
+        EmitSignal(nameof(Splash), center.GlobalPosition, -motion, 1f + dashStrength);
     }
 
     public void HandleWater()
