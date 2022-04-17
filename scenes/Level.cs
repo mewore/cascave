@@ -20,6 +20,11 @@ public class Level : Node2D
     private WaterIndicator waterIndicator;
     private CanvasItem canvasModulate;
 
+    private AudioStreamPlayer2D splashInSound;
+    private float splashInSoundVolumeDb;
+    private AudioStreamPlayer2D splashOutSound;
+    private float splashOutSoundVolumeDb;
+
     [Export]
     private Texture cursorTexture = null;
 
@@ -36,6 +41,11 @@ public class Level : Node2D
         GlobalSound.GetInstance(this).MusicForeground = true;
 
         var gameNode = GetNode<Node>("Game");
+        splashInSound = gameNode.GetNode<AudioStreamPlayer2D>("SplashInSound");
+        splashInSoundVolumeDb = splashInSound.VolumeDb;
+        splashOutSound = gameNode.GetNode<AudioStreamPlayer2D>("SplashOutSound");
+        splashOutSoundVolumeDb = splashOutSound.VolumeDb;
+
         player = gameNode.GetNode<Player>("Player");
         player.BottomRightLimit = bottomRightLimit = gameNode.GetNode<Node2D>("PlayerLimit").GlobalPosition;
         winBottomRightLimit = new Vector2(bottomRightLimit.x + 1000f, bottomRightLimit.y);
@@ -167,13 +177,21 @@ public class Level : Node2D
         overlay.FadeOutReverse();
     }
 
-    public void _on_Player_Splash(Vector2 position, Vector2 direction, float intensity)
+    public void _on_Player_Splash(Vector2 position, Vector2 impactDirection, float intensity, bool isAgainstWaterSurface)
     {
         var splash = waterSplashScene.Instance<WaterSplash>();
         splash.Position = position;
-        splash.Direction = direction;
+        splash.Direction = new Vector2(impactDirection.x, Mathf.Abs(impactDirection.y));
         splash.Intensity = intensity;
         waterSplashContainer.AddChild(splash);
+
+        if (isAgainstWaterSurface)
+        {
+            AudioStreamPlayer2D sound = impactDirection.y < 0 ? splashOutSound : splashInSound;
+            sound.Position = position;
+            sound.VolumeDb = (impactDirection.y < 0f ? splashOutSoundVolumeDb : splashInSoundVolumeDb) + (float)Math.Log10(intensity);
+            sound.Play();
+        }
     }
 
     private void SetCursor(bool isCustom)

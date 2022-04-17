@@ -47,12 +47,18 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💙 Cast rays to see whether the player can take water
 - [x] 💙 Water splash particles
 - [x] 💙💜 Lighting
-- [ ] 💛 Water splash SFX
+- [x] 💛 Water splash SFX - [Source](https://www.zapsplat.com/music/2-foot-deep-water-in-bath-splashes-movements/)
+- [ ] 💙💛 Muffled sounds when underwater
+- [ ] 💙💛 Cave ambient sounds
 - [ ] 💙💛 When a water blob collides with fire, it turns into steam particles
 - [ ] 💙💜💛 Waterfalls
-- [ ] 💙💜 Enemies
+- [ ] ❌ 💙💜 Enemies - eh
 - [ ] 💚 5 total levels
 - [ ] 💙 Ability to play a specific level
+- [ ] 💙 Timer
+- [ ] 💙 Track best time per level
+- [ ] 💙 Track used water per level (less = better)
+- [ ] 💙 Difficulty settings
 - [ ] 💜 Cover art
 - [ ] 💜 Icon
 - [ ] 💟 Publish `0.2.0`

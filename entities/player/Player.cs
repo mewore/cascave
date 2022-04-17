@@ -5,7 +5,7 @@ using Godot;
 public class Player : KinematicBody2D
 {
     [Signal]
-    delegate void Splash(Vector2 position, Vector2 direction, float intensity);
+    delegate void Splash(Vector2 position, Vector2 direction, float intensity, bool isAgainstWaterSurface);
 
     public const string RETAIN_WATER_SETTING = "application/game/player_retains_water";
     private const int MAX_WATER_BLOBS = 50;
@@ -264,7 +264,7 @@ public class Player : KinematicBody2D
 
         if (wasUnderwater != isUnderwater && Mathf.Abs(motion.y) > MAX_FALL_SPEED * .2f)
         {
-            EmitSignal(nameof(Splash), center.GlobalPosition, motion.y < 0f ? motion : new Vector2(motion.x, -motion.y), Mathf.Abs(motion.y / MAX_FALL_SPEED));
+            EmitSignal(nameof(Splash), center.GlobalPosition, motion, Mathf.Abs(motion.y / MAX_FALL_SPEED), true);
         }
 
         if (canControl && sprite.Visible)
@@ -322,7 +322,7 @@ public class Player : KinematicBody2D
             waterBlobs.Pop().QueueFree();
         }
         dashSound.Play();
-        EmitSignal(nameof(Splash), center.GlobalPosition, -motion, 1f + dashStrength);
+        EmitSignal(nameof(Splash), center.GlobalPosition, -motion, 1f + dashStrength, false);
     }
 
     public void HandleWater()
