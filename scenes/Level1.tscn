@@ -100,4 +100,39 @@ tile_data = PoolIntArray( -393179, 0, 0, -393178, 0, 1, -393177, 0, 2, -327643, 
 [node name="PlayerLimit" parent="Game" index="7"]
 position = Vector2( 624, 450 )
 
+[node name="Tips" type="Node2D" parent="Game" index="8"]
+z_index = 5
+
+[node name="WaterTip" type="Node2D" parent="Game/Tips" index="0"]
+position = Vector2( 480, 340 )
+scale = Vector2( 0.5, 0.5 )
+
+[node name="Label" type="Label" parent="Game/Tips/WaterTip" index="0"]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "Hold [Right click] to collect water."
+
+[node name="MovementTip" type="Node2D" parent="Game/Tips" index="1"]
+position = Vector2( 12, 360 )
+scale = Vector2( 0.5, 0.5 )
+
+[node name="Label" type="Label" parent="Game/Tips/MovementTip" index="0"]
+margin_right = 40.0
+margin_bottom = 14.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "Use WAD or the arrow keys to move."
+
+[node name="ShootTip" type="Node2D" parent="Game/Tips" index="2"]
+position = Vector2( 456, 260 )
+scale = Vector2( 0.5, 0.5 )
+
+[node name="Label" type="Label" parent="Game/Tips/ShootTip" index="0"]
+margin_right = 275.0
+margin_bottom = 65.0
+text = "Hold [Left click] to shoot water at the fires.
+
+When all of them have been extinguished,
+you can proceed to the right."
+
 [editable path="Game/WaterPool"]

@@ -30,7 +30,7 @@ Yet another generic puzzle platformer no one asked for.
   can proceed to the next level
 - [x] 💚 First and second level
 - [x] 💚 Credits
-- [ ] 💙 Basic instructions
+- [x] 💙 Basic instructions
 - [ ] 💟 Publish `0.1.0`
 
 ### Basic features

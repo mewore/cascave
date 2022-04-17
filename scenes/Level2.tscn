@@ -78,4 +78,18 @@ tile_data = PoolIntArray( -1, 0, 262150, -65535, 0, 0, -65534, 0, 1, -65533, 0, 
 [node name="PlayerLimit" parent="Game" index="9"]
 position = Vector2( 800, 672 )
 
+[node name="Tips" type="Node2D" parent="Game" index="10"]
+z_index = 5
+
+[node name="DashTip" type="Node2D" parent="Game/Tips" index="0"]
+position = Vector2( 390, 508 )
+scale = Vector2( 0.5, 0.5 )
+
+[node name="Label" type="Label" parent="Game/Tips/DashTip" index="0"]
+margin_right = 275.0
+margin_bottom = 65.0
+text = "Press [Space] to dash, using
+some of the water you are holding."
+align = 1
+
 [editable path="Game/WaterPool"]
