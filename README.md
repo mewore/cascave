@@ -36,10 +36,11 @@ Yet another generic puzzle platformer no one asked for.
 ### Basic features
 
 - [x] 💙💜 Campfires to extinguish
-- [ ] 💙💜 Water indicator (5 squares which light up depending on how much water the player is carrying)
+- [x] 💙💜 Water indicator (10 squares which light up depending on how much water the player is carrying)
 - [ ] 💜 Better character
 - [ ] 💜 Better environment
 - [ ] 💜 Font
+- [ ] 💜 Cursor
 - [ ] 💙 Water splash particles
 - [ ] 💙💜 Lighting
 - [ ] 💛 Water splash SFX
@@ -54,6 +55,7 @@ Yet another generic puzzle platformer no one asked for.
 
 ### Advanced features
 
+- [ ] 💛 Proper music
 - [ ] 💜 Main menu background
 - [ ] 💙💜 Simple character monologue
 - [ ] 💙 Water surface waviness

@@ -13,7 +13,8 @@ config_version=4
 config/name="Cascave"
 run/main_scene="res://scenes/MainMenu.tscn"
 config/icon="res://icon.png"
-game/player_retains_water=true
+game/player_retains_water=false
+game/water_indicator_follows_mouse=true
 
 [autoload]
 

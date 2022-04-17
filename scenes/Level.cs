@@ -16,6 +16,7 @@ public class Level : Node2D
     private Func<int> firesLeft = () => 1;
     private Vector2 bottomRightLimit;
     private Vector2 winBottomRightLimit;
+    private WaterIndicator waterIndicator;
 
     public override void _Ready()
     {
@@ -50,6 +51,9 @@ public class Level : Node2D
         var camera = GetNode<Camera2D>("MouseCamera");
         camera.LimitRight = (int)bottomRightLimit.x;
         camera.LimitBottom = (int)bottomRightLimit.y;
+
+        waterIndicator = gameNode.GetNode<WaterIndicator>("WaterIndicator");
+        waterIndicator.Player = player;
     }
 
     public override void _Process(float delta)

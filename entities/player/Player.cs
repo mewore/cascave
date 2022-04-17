@@ -61,6 +61,7 @@ public class Player : KinematicBody2D
     private readonly Stack<WaterBlob> waterBlobs = new Stack<WaterBlob>(MAX_WATER_BLOBS);
     private Physics2DShapeQueryParameters waterIntersectParameters;
     private Resource waterDetectionShape;
+    public bool IsCarryingWater => waterBlobs.Count > 0;
 
     [Export]
     private NodePath waterBlobContainer = null;
@@ -349,5 +350,10 @@ public class Player : KinematicBody2D
             canLaunchAt = now + LAUNCH_COOLDOWN;
             waterBlobs.Pop().Launch(GetGlobalMousePosition());
         }
+    }
+
+    public int GetWaterParts(int maxParts)
+    {
+        return waterBlobs.Count * maxParts / MAX_WATER_BLOBS;
     }
 }
