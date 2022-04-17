@@ -1,16 +1,17 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://entities/player/Player.cs" type="Script" id=1]
 [ext_resource path="res://entities/player/states/PlayerActive.cs" type="Script" id=2]
 [ext_resource path="res://entities/player/player.png" type="Texture" id=3]
 [ext_resource path="res://entities/StateMachine.cs" type="Script" id=4]
 [ext_resource path="res://entities/player/animations/idle.tres" type="Animation" id=5]
-[ext_resource path="res://entities/player/animations/walk.tres" type="Animation" id=6]
+[ext_resource path="res://entities/player/animations/run.tres" type="Animation" id=6]
 [ext_resource path="res://entities/player/animations/jump_side.tres" type="Animation" id=7]
 [ext_resource path="res://entities/player/animations/fall_side.tres" type="Animation" id=8]
 [ext_resource path="res://entities/water/WaterBlob.tscn" type="PackedScene" id=9]
 [ext_resource path="res://entities/player/jump.ogg" type="AudioStream" id=10]
-[ext_resource path="res://entities/player/land.ogg" type="AudioStream" id=11]
+[ext_resource path="res://entities/player/land.wav" type="AudioStream" id=11]
+[ext_resource path="res://entities/player/player-outline.png" type="Texture" id=12]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 blend_mode = 1
@@ -18,57 +19,6 @@ blend_mode = 1
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 8.0
 height = 16.0
-
-[sub_resource type="Animation" id=3]
-length = 0.6
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 0.6 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:closenessToDoor")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( -2, 1 ),
-"update": 0,
-"values": [ 0.0, 1.0 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath(".:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("CollisionShape2D:disabled")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.3 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, true ]
-}
 
 [sub_resource type="Animation" id=4]
 loop = true
@@ -82,7 +32,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 6 ]
+"values": [ 11 ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -97,46 +47,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 5 ]
-}
-
-[sub_resource type="Animation" id=6]
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("CollisionShape2D:disabled")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.2 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
+"values": [ 10 ]
 }
 
 [sub_resource type="Animation" id=7]
@@ -180,14 +91,16 @@ waterParticleScene = ExtResource( 9 )
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -24 )
 texture = ExtResource( 3 )
-hframes = 9
+hframes = 20
+frame = 7
 
 [node name="Outline" type="Sprite" parent="Sprite"]
 visible = false
 self_modulate = Color( 1, 1, 1, 0.501961 )
 light_mask = 0
 material = SubResource( 1 )
-hframes = 9
+texture = ExtResource( 12 )
+hframes = 11
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -16 )
@@ -215,14 +128,12 @@ script = ExtResource( 4 )
 script = ExtResource( 2 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/enter_door = SubResource( 3 )
 anims/fall = SubResource( 4 )
 anims/fall_side = ExtResource( 8 )
 anims/idle = ExtResource( 5 )
 anims/jump = SubResource( 5 )
 anims/jump_side = ExtResource( 7 )
-anims/leave_door = SubResource( 6 )
-anims/walk = ExtResource( 6 )
+anims/run = ExtResource( 6 )
 
 [node name="Tip" type="Node2D" parent="."]
 position = Vector2( 0, -48 )
@@ -249,17 +160,23 @@ bus = "SFX"
 
 [node name="JumpSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )
-volume_db = -5.0
+volume_db = -8.0
 bus = "SFX"
 
 [node name="DashSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )
-volume_db = -1.0
+volume_db = -3.0
 bus = "SFX"
 
 [node name="StepSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 11 )
-volume_db = -10.0
+volume_db = -5.0
+bus = "SFX"
+
+[node name="OtherStepSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+volume_db = -6.0
+pitch_scale = 0.9
 bus = "SFX"
 
 [node name="WaterDetectionShape" type="CollisionShape2D" parent="."]

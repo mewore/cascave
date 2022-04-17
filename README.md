@@ -37,7 +37,7 @@ Yet another generic puzzle platformer no one asked for.
 
 - [x] 💙💜 Campfires to extinguish
 - [x] 💙💜 Water indicator (10 squares which light up depending on how much water the player is carrying)
-- [ ] 💜 Better character
+- [x] 💜 Better character
 - [ ] 💜 Better environment
 - [ ] 💜 Font
 - [ ] 💜 Cursor

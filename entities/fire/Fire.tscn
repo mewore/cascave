@@ -57,7 +57,7 @@ color_ramp = SubResource( 2 )
 
 [node name="FireSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )
-volume_db = -5.0
+volume_db = -8.0
 pitch_scale = 0.9
 autoplay = true
 max_distance = 1000.0
