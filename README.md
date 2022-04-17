@@ -23,7 +23,7 @@ Yet another generic puzzle platformer no one asked for.
       | [Source](https://www.zapsplat.com/music/breath-human-scared-fear-018/)
     - Land/Step: [Source](https://www.zapsplat.com/music/a-pair-of-soccer-boots-set-down-on-stones-1/)
 - [x] 💙💜💛 Torches to extinguish
-  - Fire sound: [Source](https://www.zapsplat.com/music/campfire-flames-burn-and-sizzle-in-wind/)
+    - Fire sound: [Source](https://www.zapsplat.com/music/campfire-flames-burn-and-sizzle-in-wind/)
 - [x] 💜 Simple character (32 x 48 px)
 - [x] 💙💜 Simple environment (tile-based)
 - [x] 💙 When all torches in the level are extinguished, a collider to the right of the map is disabled and the player
@@ -40,16 +40,17 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💜 Better character
 - [x] 💜 Better environment
 - [x] 💜 Font
-  - [Umbrage](http://www.vicfieger.com/~font/decay.html)
-  - [Pixel Splitter](https://www.1001freefonts.com/pixel-splitter.font)
-  - [Rubik](https://www.1001freefonts.com/rubik.font)
+    - [Umbrage](http://www.vicfieger.com/~font/decay.html)
+    - [Pixel Splitter](https://www.1001freefonts.com/pixel-splitter.font)
+    - [Rubik](https://www.1001freefonts.com/rubik.font)
 - [x] 💜 Cursor
 - [x] 💙 Cast rays to see whether the player can take water
 - [x] 💙 Water splash particles
 - [x] 💙💜 Lighting
 - [x] 💛 Water splash SFX - [Source](https://www.zapsplat.com/music/2-foot-deep-water-in-bath-splashes-movements/)
 - [x] 💙💛 Muffled sounds when underwater
-- [ ] 💙💛 Cave ambient sounds
+- [x] 💙💛 Cave ambient sounds
+  - [Source](https://www.zapsplat.com/music/cave-ambience-small-chamber-water-flow-and-drip-wind-howling-through-tunnel-system/)
 - [ ] 💙💛 When a water blob collides with fire, it turns into steam particles
 - [ ] 💙💜💛 Waterfalls
 - [ ] ❌ 💙💜 Enemies - eh
