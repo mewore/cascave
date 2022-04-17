@@ -33,9 +33,9 @@ align = 1
 
 [node name="WinLabel" type="Label" parent="Container/MainMenu"]
 visible = false
-margin_top = 18.0
-margin_right = 200.0
-margin_bottom = 32.0
+margin_top = 76.0
+margin_right = 190.0
+margin_bottom = 91.0
 text = "Nice! You beat all levels!"
 align = 1
 

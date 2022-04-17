@@ -19,6 +19,9 @@ public class Level : Node2D
     private CanvasLayer waterIndicatorLayer;
     private WaterIndicator waterIndicator;
 
+    [Export]
+    private Texture cursorTexture;
+
     public override void _Ready()
     {
         overlay = GetNode<Overlay>("Overlay");
@@ -56,6 +59,8 @@ public class Level : Node2D
         waterIndicatorLayer = GetNode<CanvasLayer>("WaterIndicatorUi");
         waterIndicator = waterIndicatorLayer.GetNode<WaterIndicator>("WaterIndicator");
         waterIndicator.Player = player;
+
+        SetCursor(true);
     }
 
     public override void _Process(float delta)
@@ -92,6 +97,7 @@ public class Level : Node2D
                 pauseMenu.Visible = paused = !paused;
                 pauseMenu.CurrentMenu = MenuType.PAUSE;
                 GlobalSound.GetInstance(this).MusicForeground = !paused;
+                SetCursor(!pauseMenu.Visible);
             }
         }
     }
@@ -126,6 +132,7 @@ public class Level : Node2D
     public void _on_PauseMenu_ResumeRequested()
     {
         pauseMenu.Visible = paused = false;
+        SetCursor(true);
         GlobalSound.GetInstance(this).MusicForeground = true;
     }
 
@@ -142,5 +149,17 @@ public class Level : Node2D
         targetScene = MAIN_MENU_PATH;
         pauseMenu.Editable = false;
         overlay.FadeOutReverse();
+    }
+
+    private void SetCursor(bool isCustom)
+    {
+        if (isCustom && cursorTexture != null)
+        {
+            Input.SetCustomMouseCursor(cursorTexture, default, new Vector2(16, 16));
+        }
+        else
+        {
+            Input.SetCustomMouseCursor(null);
+        }
     }
 }

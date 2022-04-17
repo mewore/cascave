@@ -51,6 +51,7 @@ public class MainMenu : Node2D
         GlobalSound.GetInstance(this).MusicForeground = false;
 
         settingsMenu = container.GetNode<SettingsMenu>("SettingsMenu");
+        Input.SetCustomMouseCursor(null);
     }
 
     public void _on_PlayButton_pressed()

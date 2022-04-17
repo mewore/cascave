@@ -43,7 +43,7 @@ Yet another generic puzzle platformer no one asked for.
   - [Umbrage](http://www.vicfieger.com/~font/decay.html)
   - [Pixel Splitter](https://www.1001freefonts.com/pixel-splitter.font)
   - [Rubik](https://www.1001freefonts.com/rubik.font)
-- [ ] 💜 Cursor
+- [x] 💜 Cursor
 - [ ] 💙 Cast rays to see whether the player can take water
 - [ ] 💙 Water splash particles
 - [ ] 💙💜 Lighting
