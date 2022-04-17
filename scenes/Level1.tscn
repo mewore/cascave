@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scenes/Level.tscn" type="PackedScene" id=1]
 [ext_resource path="res://environment/AutoPolygon.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://environment/AutoLightOccluder.tscn" type="PackedScene" id=6]
 [ext_resource path="res://entities/water/WaterPool.tscn" type="PackedScene" id=7]
 [ext_resource path="res://environment/WallPolygon.tscn" type="PackedScene" id=8]
+[ext_resource path="res://environment/crystal/Crystal.tscn" type="PackedScene" id=9]
 
 [sub_resource type="OccluderPolygon2D" id=1]
 cull_mode = 2
@@ -100,34 +101,35 @@ tile_data = PoolIntArray( -393179, 0, 0, -393178, 0, 1, -393177, 0, 2, -327643, 
 [node name="PlayerLimit" parent="Game" index="7"]
 position = Vector2( 624, 450 )
 
-[node name="Tips" type="Node2D" parent="Game" index="8"]
-z_index = 5
+[node name="Crystal" parent="Game/Decorations" index="0" instance=ExtResource( 9 )]
+position = Vector2( 116, 246 )
 
-[node name="WaterTip" type="Node2D" parent="Game/Tips" index="0"]
+[node name="Crystal2" parent="Game/Decorations" index="1" instance=ExtResource( 9 )]
+position = Vector2( 424, 328 )
+
+[node name="WaterTip" type="Node2D" parent="InGameUi/Tips" index="0"]
 position = Vector2( 480, 340 )
 scale = Vector2( 0.5, 0.5 )
 
-[node name="Label" type="Label" parent="Game/Tips/WaterTip" index="0"]
+[node name="Label" type="Label" parent="InGameUi/Tips/WaterTip" index="0"]
 margin_right = 40.0
 margin_bottom = 14.0
 text = "Hold [Right click] to collect water."
 
-[node name="MovementTip" type="Node2D" parent="Game/Tips" index="1"]
+[node name="MovementTip" type="Node2D" parent="InGameUi/Tips" index="1"]
 position = Vector2( 12, 360 )
 scale = Vector2( 0.5, 0.5 )
 
-[node name="Label" type="Label" parent="Game/Tips/MovementTip" index="0"]
+[node name="Label" type="Label" parent="InGameUi/Tips/MovementTip" index="0"]
 margin_right = 40.0
 margin_bottom = 14.0
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 text = "Use WAD or the arrow keys to move."
 
-[node name="ShootTip" type="Node2D" parent="Game/Tips" index="2"]
+[node name="ShootTip" type="Node2D" parent="InGameUi/Tips" index="2"]
 position = Vector2( 456, 260 )
 scale = Vector2( 0.5, 0.5 )
 
-[node name="Label" type="Label" parent="Game/Tips/ShootTip" index="0"]
+[node name="Label" type="Label" parent="InGameUi/Tips/ShootTip" index="0"]
 margin_right = 275.0
 margin_bottom = 65.0
 text = "Hold [Left click] to shoot water at the fires.

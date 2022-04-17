@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Fire : Node2D
 {
+    public const string LIGHT_FLICKERS_SETTING = "application/game/fire_light_flickers";
+
     [Export(PropertyHint.Range, "1, 30")]
     private int hitPoints = 5;
     private int currentHitPoints;
@@ -17,6 +19,12 @@ public class Fire : Node2D
     private CPUParticles2D[] smokeParticleEmitters;
     private AudioStreamPlayer2D fireSound;
 
+    private float lightEnergyVariation = .5f;
+    private float lightEnergyChangeSpeed = 5f;
+    private float originalLightEnergy;
+    private Light2D light;
+    private bool ShouldInduceSeizures => (bool)ProjectSettings.GetSetting(LIGHT_FLICKERS_SETTING);
+
     public override void _Ready()
     {
         currentHitPoints = hitPoints;
@@ -25,6 +33,21 @@ public class Fire : Node2D
         fireSound = GetNode<AudioStreamPlayer2D>("FireSound");
         originalVolume = fireSound.VolumeDb;
         log10HitPoints = Math.Log10(hitPoints);
+        light = GetNode<Light2D>("Light2D");
+        originalLightEnergy = light.Energy;
+    }
+
+    public override void _Process(float delta)
+    {
+        if (ShouldInduceSeizures && currentHitPoints > 0)
+        {
+            float averageLightEnergy = originalLightEnergy * currentHitPoints / hitPoints;
+            float variation = averageLightEnergy * lightEnergyVariation * .5f;
+            light.Energy = Mathf.Clamp(
+                light.Energy + ((float)Math.Pow(GD.Randf() * 2 - 1f, 3) * .5f) * averageLightEnergy * lightEnergyChangeSpeed * delta,
+                Mathf.Max(0f, averageLightEnergy - variation),
+                averageLightEnergy + variation);
+        }
     }
 
     private CPUParticles2D[] ReplicateParticles(CPUParticles2D original)
@@ -52,10 +75,12 @@ public class Fire : Node2D
         fireParticleEmitters[currentHitPoints].Emitting = smokeParticleEmitters[currentHitPoints].Emitting = false;
         if (currentHitPoints <= 0)
         {
+            light.QueueFree();
             fireSound.Stop();
         }
         else
         {
+            light.Energy = originalLightEnergy * currentHitPoints / hitPoints;
             fireSound.VolumeDb = (float)(originalVolume + Math.Log10(currentHitPoints) - log10HitPoints);
         }
         return true;

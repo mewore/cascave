@@ -10,7 +10,7 @@ script = ExtResource( 1 )
 
 [node name="RetainWater" type="VBoxContainer" parent="."]
 margin_right = 300.0
-margin_bottom = 75.0
+margin_bottom = 40.0
 
 [node name="RetainWaterButton" type="CheckButton" parent="RetainWater"]
 margin_right = 300.0
@@ -19,13 +19,48 @@ pressed = true
 text = "Player retains water"
 align = 2
 
-[node name="RetainWaterLabel" type="Label" parent="RetainWater"]
+[node name="LabelContainer" type="Node2D" parent="RetainWater"]
+position = Vector2( 284, 32 )
+scale = Vector2( 0.5, 0.5 )
+
+[node name="RetainWaterLabel" type="Label" parent="RetainWater/LabelContainer"]
+margin_left = -476.0
+margin_top = -4.0
+margin_right = -1.0
+margin_bottom = 27.0
+size_flags_horizontal = 3
+text = "Release the [right mouse button] to release the water back into its source."
+align = 2
+
+[node name="WaterIndicatorFollowsMouseButton" type="CheckButton" parent="."]
 margin_top = 44.0
 margin_right = 300.0
-margin_bottom = 75.0
+margin_bottom = 84.0
+pressed = true
+text = "Water indicator follows mouse"
+align = 2
+
+[node name="FireLightFlickersButton" type="CheckButton" parent="."]
+margin_top = 88.0
+margin_right = 300.0
+margin_bottom = 128.0
+pressed = true
+text = "Fire light flickers"
+align = 2
+
+[node name="LabelContainer" type="Node2D" parent="FireLightFlickersButton"]
+position = Vector2( 284, 32 )
+scale = Vector2( 0.5, 0.5 )
+
+[node name="Warning" type="Label" parent="FireLightFlickersButton/LabelContainer"]
+margin_left = -584.0
+margin_top = -4.0
+margin_right = 3.0
+margin_bottom = 27.0
 size_flags_horizontal = 3
-text = "Release the [right mouse button]
-to release the water back into its source."
-align = 1
+text = "Keep this disabled if you have epilepsy wor have any respect for your eyes."
+align = 2
 
 [connection signal="toggled" from="RetainWater/RetainWaterButton" to="." method="_on_RetainWaterButton_toggled"]
+[connection signal="toggled" from="WaterIndicatorFollowsMouseButton" to="." method="_on_WaterIndicatorFollowsMouseButton_toggled"]
+[connection signal="toggled" from="FireLightFlickersButton" to="." method="_on_FireLightFlickersButton_toggled"]

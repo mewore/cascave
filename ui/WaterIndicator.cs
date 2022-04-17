@@ -2,12 +2,14 @@ using Godot;
 
 public class WaterIndicator : Node2D
 {
-    private static readonly Vector2 OFFSET_FROM_PLAYER = Vector2.Up * 32f;
+    public const string FOLLOW_MOUSE_SETTING = "application/game/water_indicator_follows_mouse";
+
+    private static readonly Vector2 OFFSET_FROM_PLAYER = Vector2.Up * 40f;
 
     private Sprite sprite;
     public Player Player;
 
-    private bool ShouldFollowMouse => (bool)ProjectSettings.GetSetting("application/game/water_indicator_follows_mouse");
+    private bool ShouldFollowMouse => (bool)ProjectSettings.GetSetting(FOLLOW_MOUSE_SETTING);
 
     public override void _Ready()
     {

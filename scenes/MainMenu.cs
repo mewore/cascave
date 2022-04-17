@@ -4,15 +4,29 @@ public class MainMenu : Node2D
 {
     private Button playButton;
     private Button continueButton;
+    private Button settingsButton;
     private Overlay overlay;
-    private SoundControl soundControl;
+
+    private CanvasItem mainMenu;
+    private SettingsMenu settingsMenu;
+
+    private MenuType CurrentMenu
+    {
+        set
+        {
+            mainMenu.Visible = value == MenuType.MAIN;
+            settingsMenu.Visible = value == MenuType.SETTINGS;
+        }
+    }
 
     public override void _Ready()
     {
-        var container = GetNode<Node>("Container/VBoxContainer");
-        container.GetNode<Label>("Title").Text = (string)ProjectSettings.GetSetting("application/config/name");
-        playButton = container.GetNode<Button>("PlayButton");
-        continueButton = container.GetNode<Button>("ContinueButton");
+        var container = GetNode<Node>("Container");
+        mainMenu = container.GetNode<CanvasItem>("MainMenu");
+        mainMenu.GetNode<Label>("Title").Text = (string)ProjectSettings.GetSetting("application/config/name");
+        playButton = mainMenu.GetNode<Button>("PlayButton");
+        continueButton = mainMenu.GetNode<Button>("ContinueButton");
+        settingsButton = mainMenu.GetNode<Button>("SettingsButton");
         overlay = GetNode<Overlay>("Overlay");
         if (Global.ReturningToMenu)
         {
@@ -31,9 +45,10 @@ public class MainMenu : Node2D
         {
             continueButton.Text += " from level " + Global.BestLevel;
         }
-        container.GetNode<CanvasItem>("WinLabel").Visible = Global.HasBeatenAllLevels;
-        soundControl = container.GetNode<SoundControl>("SoundControl");
+        mainMenu.GetNode<CanvasItem>("WinLabel").Visible = Global.HasBeatenAllLevels;
         GlobalSound.GetInstance(this).MusicForeground = false;
+
+        settingsMenu = container.GetNode<SettingsMenu>("SettingsMenu");
     }
 
     public void _on_PlayButton_pressed()
@@ -50,9 +65,8 @@ public class MainMenu : Node2D
 
     private void FadeOut()
     {
-        playButton.Disabled = true;
-        continueButton.Disabled = true;
-        soundControl.Editable = false;
+        playButton.Disabled = continueButton.Disabled = settingsButton.Disabled = true;
+        settingsMenu.Editable = false;
         overlay.FadeOut();
     }
 
@@ -60,4 +74,8 @@ public class MainMenu : Node2D
     {
         GetTree().ChangeScene(Global.CurrentLevelPath);
     }
+
+    public void _on_SettingsButton_pressed() => CurrentMenu = MenuType.SETTINGS;
+
+    public void _on_SettingsDoneButton_pressed() => CurrentMenu = MenuType.MAIN;
 }

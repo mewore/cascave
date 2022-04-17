@@ -38,9 +38,10 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💙💜 Campfires to extinguish
 - [x] 💙💜 Water indicator (10 squares which light up depending on how much water the player is carrying)
 - [x] 💜 Better character
-- [ ] 💜 Better environment
+- [x] 💜 Better environment
 - [ ] 💜 Font
 - [ ] 💜 Cursor
+- [ ] 💙 Cast rays to see whether the player can take water
 - [ ] 💙 Water splash particles
 - [ ] 💙💜 Lighting
 - [ ] 💛 Water splash SFX

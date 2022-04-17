@@ -11,17 +11,18 @@ public class Level : Node2D
     bool paused = false;
     string targetScene;
 
-    private CanvasItem pauseMenu;
+    private PauseMenu pauseMenu;
     private Player player;
     private Func<int> firesLeft = () => 1;
     private Vector2 bottomRightLimit;
     private Vector2 winBottomRightLimit;
+    private CanvasLayer waterIndicatorLayer;
     private WaterIndicator waterIndicator;
 
     public override void _Ready()
     {
         overlay = GetNode<Overlay>("Overlay");
-        pauseMenu = GetNode<CanvasItem>("PauseUi/PauseMenu");
+        pauseMenu = GetNode<PauseMenu>("PauseUi/PauseMenu");
         overlay.FadeIn();
         currentLevel = Global.CurrentLevel;
         GlobalSound.GetInstance(this).MusicForeground = true;
@@ -52,13 +53,15 @@ public class Level : Node2D
         camera.LimitRight = (int)bottomRightLimit.x;
         camera.LimitBottom = (int)bottomRightLimit.y;
 
-        waterIndicator = gameNode.GetNode<WaterIndicator>("WaterIndicator");
+        waterIndicatorLayer = GetNode<CanvasLayer>("WaterIndicatorUi");
+        waterIndicator = waterIndicatorLayer.GetNode<WaterIndicator>("WaterIndicator");
         waterIndicator.Player = player;
     }
 
     public override void _Process(float delta)
     {
         GetTree().Paused = overlay.Transitioning || paused;
+        waterIndicatorLayer.FollowViewportEnable = !(bool)ProjectSettings.GetSetting(WaterIndicator.FOLLOW_MOUSE_SETTING);
     }
 
     public override void _PhysicsProcess(float delta)
@@ -87,6 +90,7 @@ public class Level : Node2D
             if (!overlay.Transitioning)
             {
                 pauseMenu.Visible = paused = !paused;
+                pauseMenu.CurrentMenu = MenuType.PAUSE;
                 GlobalSound.GetInstance(this).MusicForeground = !paused;
             }
         }
@@ -119,22 +123,24 @@ public class Level : Node2D
         overlay.FadeOut();
     }
 
-    public void _on_Resume_pressed()
+    public void _on_PauseMenu_ResumeRequested()
     {
         pauseMenu.Visible = paused = false;
         GlobalSound.GetInstance(this).MusicForeground = true;
     }
 
-    public void _on_RestartLevel_pressed()
+    public void _on_PauseMenu_RestartLevelRequested()
     {
         targetScene = Global.CurrentLevelPath;
+        pauseMenu.Editable = false;
         overlay.FadeOutReverse();
     }
 
-    public void _on_ReturnToMenu_pressed()
+    public void _on_PauseMenu_ReturnToMainMenuRequested()
     {
         Global.ReturningToMenu = true;
         targetScene = MAIN_MENU_PATH;
+        pauseMenu.Editable = false;
         overlay.FadeOutReverse();
     }
 }
