@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://entities/player/Player.cs" type="Script" id=1]
 [ext_resource path="res://entities/player/states/PlayerActive.cs" type="Script" id=2]
@@ -19,6 +19,12 @@ blend_mode = 1
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 8.0
 height = 16.0
+
+[sub_resource type="CanvasItemMaterial" id=9]
+blend_mode = 1
+
+[sub_resource type="Curve" id=10]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Animation" id=4]
 loop = true
@@ -119,7 +125,20 @@ position = Vector2( 0, -192 )
 position = Vector2( -4, -40 )
 
 [node name="Center" type="Position2D" parent="."]
-position = Vector2( 0, -20 )
+position = Vector2( 0, -16 )
+
+[node name="LineOfSight" type="Line2D" parent="Center"]
+material = SubResource( 9 )
+z_index = 4
+z_as_relative = false
+points = PoolVector2Array( 0, 0, 132, 0 )
+width = 2.0
+width_curve = SubResource( 10 )
+default_color = Color( 0.4, 0.501961, 1, 1 )
+
+[node name="SightRay" type="RayCast2D" parent="Center"]
+collision_mask = 5
+collide_with_areas = true
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 4 )

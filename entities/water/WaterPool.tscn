@@ -19,8 +19,8 @@ colors = PoolColorArray( 0.0351562, 0.844868, 1, 0, 0, 0.792527, 1, 1, 0, 0.8394
 
 [node name="WaterPool" type="Area2D"]
 collision_layer = 4
+collision_mask = 0
 monitoring = false
-monitorable = false
 space_override = 3
 gravity = -10.23
 linear_damp = 0.5
@@ -35,7 +35,7 @@ __meta__ = {
 [node name="AutoPolygon2" parent="CollisionShape2D" instance=ExtResource( 1 )]
 color = Color( 0.360784, 0.588235, 0.72549, 0.419608 )
 texture = null
-polygon = PoolVector2Array( -96, -64, 96, -64, 96, 64, -96, 64 )
+polygon = PoolVector2Array( -48, -32, 48, -32, 48, 32, -48, 32 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 material = SubResource( 2 )

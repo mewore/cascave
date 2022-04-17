@@ -91,6 +91,16 @@ public class Player : KinematicBody2D
 
     private bool isOnFloor;
 
+    private float waterDetectionRadius;
+    private Line2D lineOfSight;
+    private RayCast2D sightRay;
+
+    [Export]
+    private Color successfulLineOfSightColor = new Color(.3f, 1f, .8f, .3f);
+
+    [Export]
+    private Color unsuccessfulLineOfSightColor = new Color(1f, .3f, .1f);
+
     public override void _Ready()
     {
         float jumpHeight = -GetNode<Node2D>("MaxJumpHeight").Position.y;
@@ -130,6 +140,10 @@ public class Player : KinematicBody2D
         }
         waterDetectionShapeNode.QueueFree();
         topLeftLimit = GetNode<Node2D>("TopLeftLimit").Position;
+
+        lineOfSight = center.GetNode<Line2D>("LineOfSight");
+        sightRay = center.GetNode<RayCast2D>("SightRay");
+        waterDetectionRadius = (waterDetectionShape as CircleShape2D).Radius;
     }
 
     public override void _PhysicsProcess(float delta)
@@ -303,13 +317,18 @@ public class Player : KinematicBody2D
 
     public void HandleWater()
     {
+        lineOfSight.Visible = false;
         if (Input.IsActionPressed("charge"))
         {
             if (waterBlobs.Count < MAX_WATER_BLOBS && waterBlobContainerNode != null && waterParticleScene != null)
             {
                 Vector2 mousePosition = GetGlobalMousePosition();
                 WaterPool detectedPool = GetDetectedPool(mousePosition);
-                if (detectedPool != null && detectedPool.TryToTakeBlob())
+                sightRay.CastTo = sightRay.ToLocal(mousePosition);
+                sightRay.CastTo += sightRay.CastTo.Normalized() * waterDetectionRadius;
+                sightRay.ForceRaycastUpdate();
+                bool isSuccessful = detectedPool != null && sightRay.IsColliding() && sightRay.GetCollider() == detectedPool;
+                if (isSuccessful && detectedPool.TryToTakeBlob())
                 {
                     var waterBlob = waterParticleScene.Instance<WaterBlob>();
                     waterBlob.Position = detectedPool.GetRandomPosition();
@@ -318,6 +337,9 @@ public class Player : KinematicBody2D
                     waterBlobs.Push(waterBlob);
                     waterBlob.WaterPool = detectedPool;
                 }
+                lineOfSight.Points = new Vector2[] { lineOfSight.Points[0], sightRay.IsColliding() ? lineOfSight.ToLocal(sightRay.GetCollisionPoint()) : sightRay.CastTo };
+                lineOfSight.DefaultColor = isSuccessful ? successfulLineOfSightColor : unsuccessfulLineOfSightColor;
+                lineOfSight.Visible = true;
             }
         }
         else if (!ShouldRetainWater || Input.IsActionJustPressed("release_water"))

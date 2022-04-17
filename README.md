@@ -44,7 +44,7 @@ Yet another generic puzzle platformer no one asked for.
   - [Pixel Splitter](https://www.1001freefonts.com/pixel-splitter.font)
   - [Rubik](https://www.1001freefonts.com/rubik.font)
 - [x] 💜 Cursor
-- [ ] 💙 Cast rays to see whether the player can take water
+- [x] 💙 Cast rays to see whether the player can take water
 - [ ] 💙 Water splash particles
 - [ ] 💙💜 Lighting
 - [ ] 💛 Water splash SFX

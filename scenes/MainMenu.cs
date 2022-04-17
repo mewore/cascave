@@ -54,6 +54,14 @@ public class MainMenu : Node2D
         Input.SetCustomMouseCursor(null);
     }
 
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event.IsActionPressed("ui_cancel"))
+        {
+            CurrentMenu = MenuType.MAIN;
+        }
+    }
+
     public void _on_PlayButton_pressed()
     {
         Global.SetLevelToFirst();
