@@ -20,7 +20,7 @@ public class GameSettingsNode : VBoxContainer
     public override void _Ready()
     {
         retainWaterButton = GetNode<Button>("RetainWater/RetainWaterButton");
-        retainWaterLabel = GetNode<Label>("RetainWater/LabelContainer/RetainWaterLabel");
+        retainWaterLabel = GetNode<Label>("RetainWater/RetainWaterLabel");
         retainWaterButton.Pressed = (bool)ProjectSettings.GetSetting(Player.RETAIN_WATER_SETTING);
         UpdateRetainWaterLabel();
 

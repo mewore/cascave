@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scenes/Level.tscn" type="PackedScene" id=1]
 [ext_resource path="res://environment/AutoPolygon.tscn" type="PackedScene" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://environment/TileSet.tres" type="TileSet" id=10]
 [ext_resource path="res://environment/Stalactites.tscn" type="PackedScene" id=11]
 [ext_resource path="res://environment/crystal/Crystal.tscn" type="PackedScene" id=12]
+[ext_resource path="res://ui/small-theme.tres" type="Theme" id=13]
 
 [sub_resource type="OccluderPolygon2D" id=3]
 cull_mode = 2
@@ -141,13 +142,12 @@ position = Vector2( 620, 502 )
 [node name="Crystal4" parent="Game/Decorations" index="3" instance=ExtResource( 12 )]
 position = Vector2( 536, 204 )
 
-[node name="DashTip" type="Node2D" parent="InGameUi/Tips" index="0"]
-position = Vector2( 390, 508 )
-scale = Vector2( 0.5, 0.5 )
-
-[node name="Label" type="Label" parent="InGameUi/Tips/DashTip" index="0"]
-margin_right = 275.0
-margin_bottom = 65.0
+[node name="DashTip" type="Label" parent="InGameUi/Tips" index="0"]
+margin_left = 324.0
+margin_top = 502.0
+margin_right = 599.0
+margin_bottom = 567.0
+theme = ExtResource( 13 )
 text = "Press [Space] to dash, using
 some of the water you are holding."
 align = 1

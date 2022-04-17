@@ -112,11 +112,12 @@ visible = false
 
 [node name="InGameUi" type="CanvasLayer" parent="."]
 layer = 5
+follow_viewport_enable = true
 
 [node name="Tips" type="Node2D" parent="InGameUi"]
 
 [node name="WaterIndicatorUi" type="CanvasLayer" parent="."]
-layer = 5
+layer = 6
 
 [node name="WaterIndicator" parent="WaterIndicatorUi" instance=ExtResource( 10 )]
 z_index = 8

@@ -12,7 +12,7 @@ script = ExtResource( 3 )
 [node name="Light2D" type="Light2D" parent="."]
 texture = ExtResource( 1 )
 color = Color( 0.886275, 0.952941, 1, 1 )
-energy = 1.16
+energy = 0.75
 range_layer_min = -10
 range_layer_max = 4
 __meta__ = {

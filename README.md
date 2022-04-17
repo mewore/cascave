@@ -39,7 +39,10 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💙💜 Water indicator (10 squares which light up depending on how much water the player is carrying)
 - [x] 💜 Better character
 - [x] 💜 Better environment
-- [ ] 💜 Font
+- [x] 💜 Font
+  - [Umbrage](http://www.vicfieger.com/~font/decay.html)
+  - [Pixel Splitter](https://www.1001freefonts.com/pixel-splitter.font)
+  - [Rubik](https://www.1001freefonts.com/rubik.font)
 - [ ] 💜 Cursor
 - [ ] 💙 Cast rays to see whether the player can take water
 - [ ] 💙 Water splash particles

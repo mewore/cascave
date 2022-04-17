@@ -7,6 +7,7 @@ public class MainMenu : Node2D
     private Button settingsButton;
     private Overlay overlay;
 
+    private CanvasItem credits;
     private CanvasItem mainMenu;
     private SettingsMenu settingsMenu;
 
@@ -14,13 +15,14 @@ public class MainMenu : Node2D
     {
         set
         {
-            mainMenu.Visible = value == MenuType.MAIN;
+            mainMenu.Visible = credits.Visible = value == MenuType.MAIN;
             settingsMenu.Visible = value == MenuType.SETTINGS;
         }
     }
 
     public override void _Ready()
     {
+        credits = GetNode<CanvasItem>("Credits");
         var container = GetNode<Node>("Container");
         mainMenu = container.GetNode<CanvasItem>("MainMenu");
         mainMenu.GetNode<Label>("Title").Text = (string)ProjectSettings.GetSetting("application/config/name");
