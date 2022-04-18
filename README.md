@@ -62,7 +62,7 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💙 Track best time per level
 - [ ] 💙 Track used water per level (less = better)
 - [x] 💙 Difficulty settings
-- [ ] 💜 Cover art
+- [x] 💜 Cover art
 - [x] 💜 Icon
 - [x] 💟 Publish `0.2.0`
 
