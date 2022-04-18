@@ -211,8 +211,8 @@ public class Global : Node
         {
             return;
         }
-        var data = LoadData(SETTINGS_SAVE_FILE);
         settings = new GameSettings();
+        var data = LoadData(SETTINGS_SAVE_FILE);
         if (data == null)
         {
             GD.Print("No data for settings could be loaded");
@@ -322,11 +322,16 @@ public class Global : Node
         {
             return null;
         }
-        file.Open(path, File.ModeFlags.Read);
+        Error openStatus = file.Open(path, File.ModeFlags.Read);
+        if (openStatus != Error.Ok)
+        {
+            GD.Print("Failed to open file ", fileName, "; error code: ", openStatus);
+            return null;
+        }
         // LOG.check_error_code(file.open(path, File.READ), "Opening file " + path);
         var raw_data = file.GetAsText();
         file.Close();
-        var loaded_data = JSON.Parse(raw_data);
+        var loaded_data = raw_data != null ? JSON.Parse(raw_data) : null;
         if (loaded_data.Result != null && loaded_data.Result is Godot.Collections.Dictionary)
         {
             return (Godot.Collections.Dictionary)loaded_data.Result;
