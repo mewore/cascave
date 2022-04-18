@@ -173,7 +173,7 @@ position = Vector2( 540, 212 )
 
 [node name="FireSpinner" parent="Game" index="15" instance=ExtResource( 6 )]
 position = Vector2( 180, 128 )
-rotation = 1004.64
+rotation = 1072.56
 
 [editable path="Game/WaterPool"]
 [editable path="Game/WaterPool2"]

@@ -63,7 +63,7 @@ Yet another generic puzzle platformer no one asked for.
 - [ ] 💙 Track used water per level (less = better)
 - [x] 💙 Difficulty settings
 - [ ] 💜 Cover art
-- [ ] 💜 Icon
+- [x] 💜 Icon
 - [ ] 💟 Publish `0.2.0`
 
 ### Advanced features
