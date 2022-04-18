@@ -31,7 +31,7 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💚 First and second level
 - [x] 💚 Credits
 - [x] 💙 Basic instructions
-- [ ] 💟 Publish `0.1.0`
+- [x] ❌ 💟 Publish `0.1.0` - bad net
 
 ### Basic features
 
@@ -54,7 +54,7 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💙💛 When a water blob collides with fire, it turns into steam particles
   - [Source](https://www.zapsplat.com/music/pan-of-boiling-water-boil-over-spill-onto-hot-hob-and-sizzle-1/)
 - [x] 💙💜💛 Waterfalls
-- [ ] ❌ 💙💜 Enemies - eh
+- [x] ❌ 💙💜 Enemies - eh
 - [x] 💚 5 total levels
 - [x] 💙 Ability to play a specific level
 - [ ] 💙 Timer
@@ -64,7 +64,7 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💙 Difficulty settings
 - [ ] 💜 Cover art
 - [x] 💜 Icon
-- [ ] 💟 Publish `0.2.0`
+- [x] 💟 Publish `0.2.0`
 
 ### Advanced features
 
