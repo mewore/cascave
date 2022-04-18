@@ -98,7 +98,6 @@ waterParticleScene = ExtResource( 9 )
 position = Vector2( 0, -24 )
 texture = ExtResource( 3 )
 hframes = 20
-frame = 7
 
 [node name="Outline" type="Sprite" parent="Sprite"]
 visible = false

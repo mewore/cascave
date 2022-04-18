@@ -50,7 +50,11 @@ motion_scale = Vector2( 0.6, 0.6 )
 modulate = Color( 0.54902, 0.494118, 0.654902, 1 )
 motion_scale = Vector2( 0.95, 0.95 )
 
+[node name="RightBehind" type="ParallaxLayer" parent="Background/ParallaxBackground"]
+modulate = Color( 0.54902, 0.494118, 0.654902, 1 )
+
 [node name="CanvasModulate" type="CanvasModulate" parent="Background/ParallaxBackground"]
+visible = false
 color = Color( 0.407843, 0.388235, 0.529412, 1 )
 
 [node name="MouseCamera" type="Camera2D" parent="."]
@@ -107,6 +111,7 @@ position = Vector2( 800, 450 )
 [node name="Decorations" type="Node2D" parent="Game"]
 
 [node name="CanvasModulate" type="CanvasModulate" parent="Game"]
+visible = false
 color = Color( 0.0627451, 0.0588235, 0.109804, 1 )
 
 [node name="WaterSplashes" type="Node2D" parent="Game"]

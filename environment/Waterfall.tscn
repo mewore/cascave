@@ -13,7 +13,8 @@ shader_param/fps = 15.0
 shader_param/palette = ExtResource( 3 )
 
 [node name="Waterfall" type="Sprite"]
+modulate = Color( 1, 1, 1, 0.392157 )
 material = SubResource( 1 )
 texture = ExtResource( 2 )
 region_enabled = true
-region_rect = Rect2( 0, 0, 64, 500 )
+region_rect = Rect2( 0, 0, 64, 1000 )

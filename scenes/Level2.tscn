@@ -60,7 +60,7 @@ texture = ExtResource( 9 )
 position = Vector2( -6, 338 )
 texture = ExtResource( 9 )
 
-[node name="TileMap" type="TileMap" parent="Background/ParallaxBackground/Middle" index="9"]
+[node name="BackgroundTileMap" type="TileMap" parent="Background/ParallaxBackground/Middle" index="9"]
 tile_set = ExtResource( 10 )
 cell_size = Vector2( 16, 16 )
 collision_layer = 0
@@ -98,8 +98,11 @@ position = Vector2( 238, 610 )
 [node name="CollisionShape2D" parent="Game/WaterPool" index="0"]
 shape = SubResource( 2 )
 
-[node name="AutoPolygon2" parent="Game/WaterPool/CollisionShape2D" index="0"]
+[node name="AutoPolygon" parent="Game/WaterPool/CollisionShape2D" index="0"]
 polygon = PoolVector2Array( -164, -56, 164, -56, 164, 56, -164, 56 )
+
+[node name="CPUParticles2D" parent="Game/WaterPool" index="1"]
+emission_rect_extents = Vector2( 164, 56 )
 
 [node name="Torch" parent="Game/Fire" index="0" instance=ExtResource( 5 )]
 position = Vector2( 252, 384 )

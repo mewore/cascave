@@ -8,7 +8,7 @@ radius = 12.0
 [node name="SmallFire" instance=ExtResource( 1 )]
 
 [node name="Fire" parent="." index="0"]
-amount = 20
+amount = 40
 emission_shape = 0
 initial_velocity = 5.0
 
@@ -17,3 +17,6 @@ emission_sphere_radius = 4.0
 
 [node name="CollisionShape2D" parent="Area2D" index="0"]
 shape = SubResource( 1 )
+
+[node name="Light2D" parent="." index="4"]
+visible = false

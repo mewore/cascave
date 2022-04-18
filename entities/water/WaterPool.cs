@@ -17,6 +17,51 @@ public class WaterPool : Area2D
     private int blobsLeft = BLOB_COUNT;
     private List<CPUParticles2D> particleEmitters = new List<CPUParticles2D>(PARTICLE_RESOLUTION);
 
+    [Export(PropertyHint.Range, "0, 1")]
+    private float saturation = 1f;
+
+    public bool HasBlobsLeft => blobsLeft > 0;
+
+    public override void _Ready()
+    {
+        blobsLeft = lastBlobCount = (int)(BLOB_COUNT * saturation);
+        var shapeNode = GetNode<CollisionShape2D>("CollisionShape2D");
+        var shape = shapeNode.Shape as RectangleShape2D;
+        extentX = shape.Extents.x * 2f;
+        extentY = shape.Extents.y * 2f;
+        var particles = GetNode<CPUParticles2D>("CPUParticles2D");
+        particles.EmissionRectExtents = shape.Extents;
+
+        if (blobsLeft <= 0)
+        {
+            particles.QueueFree();
+            if (HasNode("CollisionPolygon2D"))
+            {
+                var collisionPolygon = GetNode<CollisionPolygon2D>("CollisionPolygon2D");
+                var oldAutoPolygon = shapeNode.GetNode<AutoPolygon>("AutoPolygon");
+                var newAutoPolygon = new AutoPolygon();
+                newAutoPolygon.Color = oldAutoPolygon.Color;
+                newAutoPolygon.Material = oldAutoPolygon.Material;
+                collisionPolygon.AddChild(newAutoPolygon);
+                shapeNode.QueueFree();
+
+                newAutoPolygon.Polygon = collisionPolygon.Polygon;
+                GD.Print(GetPath(), ": ", collisionPolygon.Polygon.Length);
+            }
+        }
+        else
+        {
+            particleEmitters.Add(particles);
+            particles.Amount = PARTICLES_PER_EMITTER;
+            while (particleEmitters.Count < PARTICLE_RESOLUTION)
+            {
+                CPUParticles2D newParticles = (CPUParticles2D)particles.Duplicate();
+                AddChild(newParticles);
+                particleEmitters.Add(newParticles);
+            }
+        }
+    }
+
     public override void _Process(float delta)
     {
         if (blobsLeft != lastBlobCount)
@@ -29,20 +74,6 @@ public class WaterPool : Area2D
     public override void _PhysicsProcess(float delta)
     {
         blobTakeCooldown = Mathf.Max(0f, blobTakeCooldown - delta);
-        var shape = GetNode<CollisionShape2D>("CollisionShape2D").Shape as RectangleShape2D;
-        extentX = shape.Extents.x * 2f;
-        extentY = shape.Extents.y * 2f;
-        var particles = GetNode<CPUParticles2D>("CPUParticles2D");
-        particles.EmissionRectExtents = shape.Extents;
-
-        particleEmitters.Add(particles);
-        particles.Amount = PARTICLES_PER_EMITTER;
-        while (particleEmitters.Count < PARTICLE_RESOLUTION)
-        {
-            CPUParticles2D newParticles = (CPUParticles2D)particles.Duplicate();
-            AddChild(newParticles);
-            particleEmitters.Add(newParticles);
-        }
     }
 
     public Vector2 GetRandomPosition()

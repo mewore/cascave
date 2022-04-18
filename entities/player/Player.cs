@@ -100,6 +100,9 @@ public class Player : KinematicBody2D
     private RayCast2D sightRay;
 
     [Export]
+    private Color emptyLineOfSightColor = new Color(.7f, .5f, .5f, .5f);
+
+    [Export]
     private Color successfulLineOfSightColor = new Color(.3f, 1f, .8f, .3f);
 
     [Export]
@@ -353,7 +356,7 @@ public class Player : KinematicBody2D
                     waterBlob.WaterPool = detectedPool;
                 }
                 lineOfSight.Points = new Vector2[] { lineOfSight.Points[0], sightRay.IsColliding() ? lineOfSight.ToLocal(sightRay.GetCollisionPoint()) : sightRay.CastTo };
-                lineOfSight.DefaultColor = isSuccessful ? successfulLineOfSightColor : unsuccessfulLineOfSightColor;
+                lineOfSight.DefaultColor = isSuccessful ? (detectedPool.HasBlobsLeft ? successfulLineOfSightColor : emptyLineOfSightColor) : unsuccessfulLineOfSightColor;
                 lineOfSight.Visible = true;
             }
         }

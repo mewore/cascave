@@ -19,6 +19,7 @@ public class Level : Node2D
     private CanvasLayer waterIndicatorLayer;
     private WaterIndicator waterIndicator;
     private CanvasItem canvasModulate;
+    private CanvasItem backgroundCanvasModulate;
 
     private AudioStreamPlayer2D splashInSound;
     private float splashInSoundVolumeDb;
@@ -80,6 +81,7 @@ public class Level : Node2D
         waterSplashContainer = GetNode<Node>("Game/WaterSplashes");
 
         canvasModulate = gameNode.GetNode<CanvasItem>("CanvasModulate");
+        backgroundCanvasModulate = GetNode<CanvasItem>("Background/ParallaxBackground/CanvasModulate");
         ApplyLightingSetting(Global.CurrentLightingSetting);
         Global.SINGLETON.Connect(nameof(Global.NewLightingSetting), this, "ApplyLightingSetting");
     }
@@ -129,7 +131,7 @@ public class Level : Node2D
 
     public void ApplyLightingSetting(LightingSetting setting)
     {
-        canvasModulate.Visible = setting != LightingSetting.DISABLED;
+        canvasModulate.Visible = backgroundCanvasModulate.Visible = setting != LightingSetting.DISABLED;
     }
 
     public void _on_Overlay_FadeOutDone()
@@ -185,7 +187,7 @@ public class Level : Node2D
     {
         var splash = waterSplashScene.Instance<WaterSplash>();
         splash.Position = position;
-        splash.Direction = new Vector2(impactDirection.x, -Mathf.Abs(impactDirection.y)).Normalized();
+        splash.Direction = (isAgainstWaterSurface ? new Vector2(impactDirection.x, -Mathf.Abs(impactDirection.y)) : impactDirection).Normalized();
         splash.Intensity = intensity;
         waterSplashContainer.AddChild(splash);
 

@@ -4,7 +4,7 @@
 colors = PoolColorArray( 0.6875, 0.923096, 1, 1, 0.729412, 0.917647, 0.988235, 0 )
 
 [node name="StalactiteDrip" type="CPUParticles2D"]
-modulate = Color( 1, 1, 1, 0.741176 )
+modulate = Color( 1, 1, 1, 0.819608 )
 position = Vector2( -40, 24 )
 amount = 2
 lifetime = 5.0

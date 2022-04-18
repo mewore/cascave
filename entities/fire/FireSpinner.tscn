@@ -1,0 +1,50 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://entities/fire/FireSpinner.cs" type="Script" id=1]
+[ext_resource path="res://environment/AutoPolygon.tscn" type="PackedScene" id=3]
+[ext_resource path="res://environment/PolygonLine.tscn" type="PackedScene" id=6]
+[ext_resource path="res://environment/AutoLightOccluder.tscn" type="PackedScene" id=7]
+[ext_resource path="res://entities/fire/Torch.tscn" type="PackedScene" id=8]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0.174451, 0.990798 ), 0.0, -8.09509, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="OccluderPolygon2D" id=2]
+cull_mode = 2
+polygon = PoolVector2Array( -8, 16, 8, 16, 16, 8, 16, -8, 8, -16, -8, -16, -16, -8, -16, 8 )
+
+[node name="FireSpinner" type="Node2D"]
+rotation = 31.3254
+script = ExtResource( 1 )
+rotationSpeed = 3.0
+rotationSpeedCurve = SubResource( 1 )
+
+[node name="Center" type="StaticBody2D" parent="." groups=["opaque"]]
+collision_mask = 6
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Center"]
+polygon = PoolVector2Array( -8, 16, 8, 16, 16, 8, 16, -8, 8, -16, -8, -16, -16, -8, -16, 8 )
+
+[node name="AutoPolygon" parent="Center/CollisionPolygon2D2" instance=ExtResource( 3 )]
+polygon = PoolVector2Array( -8, 16, 8, 16, 16, 8, 16, -8, 8, -16, -8, -16, -16, -8, -16, 8 )
+
+[node name="AutoLightOccluder" parent="Center/CollisionPolygon2D2/AutoPolygon" instance=ExtResource( 7 )]
+occluder = SubResource( 2 )
+
+[node name="PolygonLine" parent="Center/CollisionPolygon2D2/AutoPolygon" instance=ExtResource( 6 )]
+points = PoolVector2Array( -8, 16, 8, 16, 16, 8, 16, -8, 8, -16, -8, -16, -16, -8, -16, 8, -8, 16 )
+
+[node name="Torch" parent="." instance=ExtResource( 8 )]
+position = Vector2( 0, -16 )
+
+[node name="Torch2" parent="." instance=ExtResource( 8 )]
+position = Vector2( 16, 0 )
+rotation = 1.57079
+
+[node name="Torch3" parent="." instance=ExtResource( 8 )]
+position = Vector2( -16, 0 )
+rotation = -1.57079
+
+[node name="Torch4" parent="." instance=ExtResource( 8 )]
+position = Vector2( 0, 16 )
+rotation = -3.14159

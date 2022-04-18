@@ -35,7 +35,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="AutoPolygon2" parent="CollisionShape2D" instance=ExtResource( 1 )]
+[node name="AutoPolygon" parent="CollisionShape2D" instance=ExtResource( 1 )]
 material = SubResource( 5 )
 color = Color( 0.360784, 0.588235, 0.72549, 0.160784 )
 texture = null
@@ -43,9 +43,10 @@ polygon = PoolVector2Array( -48, -32, 48, -32, 48, 32, -48, 32 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 material = SubResource( 2 )
+amount = 10
 texture = ExtResource( 3 )
 emission_shape = 2
-emission_rect_extents = Vector2( 50, 25 )
+emission_rect_extents = Vector2( 48, 32 )
 gravity = Vector2( 0, -30 )
 scale_amount_curve = SubResource( 4 )
 color_ramp = SubResource( 3 )

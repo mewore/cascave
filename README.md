@@ -55,7 +55,7 @@ Yet another generic puzzle platformer no one asked for.
   - [Source](https://www.zapsplat.com/music/pan-of-boiling-water-boil-over-spill-onto-hot-hob-and-sizzle-1/)
 - [x] 💙💜💛 Waterfalls
 - [ ] ❌ 💙💜 Enemies - eh
-- [ ] 💚 5 total levels
+- [x] 💚 5 total levels
 - [ ] 💙 Ability to play a specific level
 - [ ] 💙 Timer
 - [ ] 💙 Exit button

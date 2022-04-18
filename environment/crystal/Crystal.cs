@@ -16,6 +16,7 @@ public class Crystal : Sprite
         lightSprite = GetNode<Sprite>("LightSprite");
         ApplyLightingSetting(Global.CurrentLightingSetting);
         Global.SINGLETON.Connect(nameof(Global.NewLightingSetting), this, "ApplyLightingSetting");
+        GetNode<Sprite>("SmallLightSprite").Visible = true;
     }
 
     public void ApplyLightingSetting(LightingSetting setting)
