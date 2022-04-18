@@ -78,6 +78,7 @@ margin_bottom = 270.0
 rect_min_size = Vector2( 480, 270 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_speed = 1.5
 anims/fade_in = SubResource( 1 )
 anims/fade_in_reverse = SubResource( 2 )
 anims/fade_out = SubResource( 3 )

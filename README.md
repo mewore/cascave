@@ -56,12 +56,12 @@ Yet another generic puzzle platformer no one asked for.
 - [x] 💙💜💛 Waterfalls
 - [ ] ❌ 💙💜 Enemies - eh
 - [x] 💚 5 total levels
-- [ ] 💙 Ability to play a specific level
+- [x] 💙 Ability to play a specific level
 - [ ] 💙 Timer
 - [ ] 💙 Exit button
-- [ ] 💙 Track best time per level
+- [x] 💙 Track best time per level
 - [ ] 💙 Track used water per level (less = better)
-- [ ] 💙 Difficulty settings
+- [x] 💙 Difficulty settings
 - [ ] 💜 Cover art
 - [ ] 💜 Icon
 - [ ] 💟 Publish `0.2.0`

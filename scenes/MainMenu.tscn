@@ -22,7 +22,7 @@ __meta__ = {
 [node name="MainMenu" type="VBoxContainer" parent="Container"]
 margin_left = 156.0
 margin_right = 323.0
-margin_bottom = 275.0
+margin_bottom = 325.0
 
 [node name="Title" type="Label" parent="Container/MainMenu"]
 margin_right = 167.0
@@ -45,36 +45,143 @@ margin_right = 167.0
 margin_bottom = 96.0
 rect_min_size = Vector2( 0, 20 )
 
-[node name="PlayButton" type="Button" parent="Container/MainMenu"]
+[node name="Difficulty" type="HBoxContainer" parent="Container/MainMenu"]
 margin_top = 100.0
 margin_right = 167.0
 margin_bottom = 121.0
-text = "Play"
 
-[node name="ContinueButton" type="Button" parent="Container/MainMenu"]
+[node name="Label" type="Label" parent="Container/MainMenu/Difficulty"]
+margin_top = 3.0
+margin_right = 81.0
+margin_bottom = 18.0
+text = "Difficulty"
+
+[node name="DifficultyDropdown" type="OptionButton" parent="Container/MainMenu/Difficulty"]
+margin_left = 85.0
+margin_right = 167.0
+margin_bottom = 21.0
+size_flags_horizontal = 3
+text = "easy"
+
+[node name="PlayButton" type="Button" parent="Container/MainMenu"]
 margin_top = 125.0
 margin_right = 167.0
 margin_bottom = 146.0
-text = "Continue"
+text = "Play"
 
-[node name="SettingsButton" type="Button" parent="Container/MainMenu"]
+[node name="ContinueButton" type="Button" parent="Container/MainMenu"]
 margin_top = 150.0
 margin_right = 167.0
 margin_bottom = 171.0
+text = "Continue"
+
+[node name="LevelsButton" type="Button" parent="Container/MainMenu"]
+margin_top = 175.0
+margin_right = 167.0
+margin_bottom = 196.0
+text = "Levels"
+
+[node name="SettingsButton" type="Button" parent="Container/MainMenu"]
+margin_top = 200.0
+margin_right = 167.0
+margin_bottom = 221.0
 text = "Settings"
 
 [node name="Spacer2" type="Control" parent="Container/MainMenu"]
-margin_top = 175.0
+margin_top = 225.0
 margin_right = 167.0
-margin_bottom = 275.0
+margin_bottom = 325.0
 rect_min_size = Vector2( 0, 100 )
+
+[node name="LevelsMenu" type="VBoxContainer" parent="Container"]
+visible = false
+margin_left = 26.0
+margin_top = 94.0
+margin_right = 454.0
+margin_bottom = 231.0
+
+[node name="Title" type="Label" parent="Container/LevelsMenu"]
+margin_right = 428.0
+margin_bottom = 33.0
+text = "Levels
+(and best times)"
+align = 1
+
+[node name="Spacer" type="Control" parent="Container/LevelsMenu"]
+margin_top = 37.0
+margin_right = 428.0
+margin_bottom = 57.0
+rect_min_size = Vector2( 0, 20 )
+
+[node name="GridContainer" type="GridContainer" parent="Container/LevelsMenu"]
+margin_top = 61.0
+margin_right = 428.0
+margin_bottom = 84.0
+columns = 3
+
+[node name="Easy" type="Label" parent="Container/LevelsMenu/GridContainer"]
+margin_right = 140.0
+margin_bottom = 15.0
+rect_min_size = Vector2( 140, 0 )
+text = "Easy"
+align = 1
+
+[node name="Medium" type="Label" parent="Container/LevelsMenu/GridContainer"]
+margin_left = 144.0
+margin_right = 284.0
+margin_bottom = 15.0
+rect_min_size = Vector2( 140, 0 )
+text = "Medium"
+align = 1
+
+[node name="Hard" type="Label" parent="Container/LevelsMenu/GridContainer"]
+margin_left = 288.0
+margin_right = 428.0
+margin_bottom = 15.0
+rect_min_size = Vector2( 140, 0 )
+text = "Hard"
+align = 1
+
+[node name="HSeparator" type="HSeparator" parent="Container/LevelsMenu/GridContainer"]
+margin_top = 19.0
+margin_right = 140.0
+margin_bottom = 23.0
+
+[node name="HSeparator2" type="HSeparator" parent="Container/LevelsMenu/GridContainer"]
+margin_left = 144.0
+margin_top = 19.0
+margin_right = 284.0
+margin_bottom = 23.0
+
+[node name="HSeparator3" type="HSeparator" parent="Container/LevelsMenu/GridContainer"]
+margin_left = 288.0
+margin_top = 19.0
+margin_right = 428.0
+margin_bottom = 23.0
+
+[node name="HSeparator4" type="HSeparator" parent="Container/LevelsMenu"]
+margin_top = 88.0
+margin_right = 428.0
+margin_bottom = 92.0
+
+[node name="Spacer2" type="Control" parent="Container/LevelsMenu"]
+margin_top = 96.0
+margin_right = 428.0
+margin_bottom = 112.0
+rect_min_size = Vector2( 0, 16 )
+
+[node name="BackButton" type="Button" parent="Container/LevelsMenu"]
+margin_top = 116.0
+margin_right = 428.0
+margin_bottom = 137.0
+text = "Back"
 
 [node name="SettingsMenu" parent="Container" instance=ExtResource( 3 )]
 visible = false
 margin_left = 90.0
-margin_top = 28.0
+margin_top = 53.0
 margin_right = 390.0
-margin_bottom = 246.0
+margin_bottom = 271.0
 
 [node name="SettingsDoneButton" type="Button" parent="Container/SettingsMenu"]
 margin_top = 227.0
@@ -83,6 +190,7 @@ margin_bottom = 247.0
 text = "Done"
 
 [node name="Credits" type="Label" parent="."]
+visible = false
 margin_left = 2.0
 margin_top = 92.0
 margin_right = 340.0
@@ -105,8 +213,11 @@ valign = 2
 [node name="Background" type="CanvasLayer" parent="."]
 layer = -1
 
+[connection signal="item_selected" from="Container/MainMenu/Difficulty/DifficultyDropdown" to="." method="_on_DifficultyDropdown_item_selected"]
 [connection signal="pressed" from="Container/MainMenu/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="Container/MainMenu/ContinueButton" to="." method="_on_ContinueButton_pressed"]
+[connection signal="pressed" from="Container/MainMenu/LevelsButton" to="." method="_on_LevelsButton_pressed"]
 [connection signal="pressed" from="Container/MainMenu/SettingsButton" to="." method="_on_SettingsButton_pressed"]
+[connection signal="pressed" from="Container/LevelsMenu/BackButton" to="." method="_on_BackButton_pressed"]
 [connection signal="pressed" from="Container/SettingsMenu/SettingsDoneButton" to="." method="_on_SettingsDoneButton_pressed"]
 [connection signal="FadeOutDone" from="Overlay" to="." method="_on_Overlay_FadeOutDone"]

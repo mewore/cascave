@@ -17,6 +17,7 @@ game/player_retains_water=true
 game/water_indicator_follows_mouse=false
 game/fire_light_flickers=false
 game/lighting_quality=3
+game/default_difficulty=0
 
 [autoload]
 

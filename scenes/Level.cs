@@ -33,6 +33,8 @@ public class Level : Node2D
     private PackedScene waterSplashScene = null;
     public Node waterSplashContainer;
 
+    private float elapsedTime = 0f;
+
     public override void _Ready()
     {
         overlay = GetNode<Overlay>("Overlay");
@@ -106,6 +108,10 @@ public class Level : Node2D
                 WinLevel();
             }
         }
+        if (!GetTree().Paused)
+        {
+            elapsedTime += delta;
+        }
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -157,7 +163,7 @@ public class Level : Node2D
     private void WinLevel()
     {
         GlobalSound.GetInstance(this).PlayClearLevel();
-        targetScene = Global.WinLevel(currentLevel) ? Global.CurrentLevelPath : MAIN_MENU_PATH;
+        targetScene = Global.WinLevel(currentLevel, Mathf.RoundToInt(elapsedTime * 1000f)) ? Global.CurrentLevelPath : MAIN_MENU_PATH;
         overlay.FadeOut();
     }
 

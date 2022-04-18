@@ -20,6 +20,13 @@ public class Global : Node
         }
     }
 
+    public const string DEFAULT_DIFFICULTY_SETTING = "application/game/default_difficulty";
+    public static GameDifficulty CurrentDefaultDifficultySetting
+    {
+        get => (GameDifficulty)ProjectSettings.GetSetting(DEFAULT_DIFFICULTY_SETTING);
+        set => ProjectSettings.SetSetting(DEFAULT_DIFFICULTY_SETTING, (int)value);
+    }
+
     private const string SAVE_DIRECTORY = "user://";
     private const string SAVE_FILE_PREFIX = "save-";
     private const string SAVE_FILE_SUFFIX = ".json";
@@ -27,7 +34,8 @@ public class Global : Node
     private const string SETTINGS_SAVE_FILE = "settings";
     private const string DEFAULT_SAVE_FILE = "default";
 
-    private const string BEST_LEVEL_KEY = "bestLevel";
+    private const string BEST_LEVEL_KEY = "bestLevels";
+    private const string LEVEL_RECORDS_KEY = "levelRecords";
 
     private const string MASTER_VOLUME_KEY = "masterVolume";
     private const string SFX_VOLUME_KEY = "sfxVolume";
@@ -41,8 +49,14 @@ public class Global : Node
     private static string currentLevelPath = GetLevelScenePath(currentLevel);
     public static string CurrentLevelPath { get => currentLevelPath; }
 
-    private static int bestLevel = FIRST_LEVEL;
-    public static int BestLevel { get => bestLevel; }
+    public static GameDifficulty Difficulty = GameDifficulty.EASY;
+
+    private static readonly int[] bestLevels = new int[] { FIRST_LEVEL, FIRST_LEVEL, FIRST_LEVEL };
+    public static int BestLevel => BestLevelForDifficulty(Difficulty);
+    public static int BestLevelForDifficulty(GameDifficulty difficulty) => bestLevels[(int)difficulty];
+
+    private static readonly int[][] bestLevelTimes = MakeBlankBestLevelTimes();
+    public static int GetBestLevelTime(int levelIndex, GameDifficulty difficulty) => bestLevelTimes[levelIndex][(int)difficulty];
 
     private static bool hasBeatenAllLevels = false;
     public static bool HasBeatenAllLevels { get => hasBeatenAllLevels; }
@@ -66,7 +80,13 @@ public class Global : Node
 
     public static void SetLevelToBest()
     {
-        currentLevel = bestLevel;
+        currentLevel = BestLevel;
+        currentLevelPath = GetLevelScenePath(currentLevel);
+    }
+
+    public static void SetLevel(int levelId)
+    {
+        currentLevel = levelId;
         currentLevelPath = GetLevelScenePath(currentLevel);
     }
 
@@ -76,22 +96,31 @@ public class Global : Node
         currentLevelPath = GetLevelScenePath(currentLevel);
     }
 
-    public static bool WinLevel(int level)
+    public static bool WinLevel(int level, int time)
     {
         currentLevel = level;
+        int levelIndex = level - 1;
+        bestLevelTimes[levelIndex][(int)Difficulty] = bestLevelTimes[levelIndex][(int)Difficulty] == -1
+            ? time
+            : Mathf.Min(bestLevelTimes[levelIndex][(int)Difficulty], time);
+
         int lastLevel = currentLevel;
         string nextLevelPath = GetLevelScenePath(currentLevel + 1);
+        bool hasNextLevel = false;
         if (new File().FileExists(nextLevelPath))
         {
             ++currentLevel;
             currentLevelPath = nextLevelPath;
-            bestLevel = Mathf.Max(bestLevel, currentLevel);
-            SaveBestLevel(bestLevel);
-            return true;
+            bestLevels[(int)Difficulty] = Mathf.Max(bestLevels[(int)Difficulty], currentLevel);
+            hasNextLevel = true;
         }
-        hasBeatenAllLevels = true;
-        SetLevelToFirst();
-        return false;
+        else
+        {
+            hasBeatenAllLevels = true;
+            SetLevelToFirst();
+        }
+        SaveRecordData();
+        return hasNextLevel;
     }
 
     private static string GetLevelScenePath(int level)
@@ -99,23 +128,74 @@ public class Global : Node
         return "res://scenes/Level" + level + ".tscn";
     }
 
-    public static void SaveBestLevel(int bestLevel)
+    public static void SaveRecordData()
     {
         var data = new Dictionary<string, object>();
-        data.Add(BEST_LEVEL_KEY, bestLevel);
+        var array = new Godot.Collections.Array();
+        foreach (int[] bestTimes in bestLevelTimes)
+        {
+            array.Add(new Godot.Collections.Array(bestTimes[0], bestTimes[1], bestTimes[2]));
+        }
+        data.Add(BEST_LEVEL_KEY, array);
+        GD.Print("Saving: ", data);
         SaveData(BEST_LEVEL_KEY, data);
     }
 
-    public static bool LoadBestLevel()
+    public static bool LoadRecordData()
     {
         var data = LoadData(BEST_LEVEL_KEY);
-        if (data == null)
+        GD.Print("Loading: ", data);
+        if (data == null || !data.Contains(BEST_LEVEL_KEY))
         {
             return false;
         }
-        object result = data[BEST_LEVEL_KEY];
-        bestLevel = result == null ? FIRST_LEVEL : Convert.ToInt32(result);
+        var result = data[BEST_LEVEL_KEY] as Godot.Collections.Array;
+        for (int levelIndex = 0; levelIndex < bestLevelTimes.Length && levelIndex < result.Count; levelIndex++)
+        {
+            var resultTimes = result[levelIndex] as Godot.Collections.Array;
+            if (resultTimes == null)
+            {
+                GD.Print(result);
+                return false;
+            }
+            for (int difficultyIndex = 0; difficultyIndex < 3 && difficultyIndex < resultTimes.Count; difficultyIndex++)
+            {
+                bestLevelTimes[levelIndex][difficultyIndex] = Convert.ToInt32(resultTimes[difficultyIndex]);
+                if (bestLevelTimes[levelIndex][difficultyIndex] != -1 && levelIndex < bestLevelTimes.Length - 1)
+                {
+                    bestLevels[difficultyIndex] = Mathf.Max(bestLevels[difficultyIndex], levelIndex + 2);
+                }
+            }
+        }
         return true;
+    }
+
+    private static int[][] MakeBlankBestLevelTimes()
+    {
+        int levelCount = GetLevelCount();
+        int[][] result = new int[levelCount][];
+        for (int i = 0; i < levelCount; i++)
+        {
+            result[i] = new int[] { -1, -1, -1 };
+        }
+        return result;
+    }
+
+    private static int[] MakeBlankBestLevels()
+    {
+        return new int[] { FIRST_LEVEL, FIRST_LEVEL, FIRST_LEVEL };
+    }
+
+    public static int GetLevelCount()
+    {
+        for (int i = FIRST_LEVEL; i <= 100; i++)
+        {
+            if (!new File().FileExists(GetLevelScenePath(i + 1)))
+            {
+                return i - FIRST_LEVEL + 1;
+            }
+        }
+        throw new Exception("WTF");
     }
 
     public static void SaveSettings()
@@ -284,4 +364,9 @@ public class GameSettings
 public enum GameQuality
 {
     LOW, MEDIUM, HIGH
+}
+
+public enum GameDifficulty
+{
+    EASY, MEDIUM, HARD
 }

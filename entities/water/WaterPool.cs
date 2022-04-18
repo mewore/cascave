@@ -24,6 +24,14 @@ public class WaterPool : Area2D
 
     public override void _Ready()
     {
+        if (Global.Difficulty == GameDifficulty.MEDIUM)
+        {
+            saturation /= 2;
+        }
+        else if (Global.Difficulty == GameDifficulty.HARD)
+        {
+            saturation /= 4;
+        }
         blobsLeft = lastBlobCount = (int)(BLOB_COUNT * saturation);
         var shapeNode = GetNode<CollisionShape2D>("CollisionShape2D");
         var shape = shapeNode.Shape as RectangleShape2D;

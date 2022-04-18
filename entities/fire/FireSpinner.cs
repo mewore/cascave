@@ -14,6 +14,17 @@ public class FireSpinner : Node2D
 
     private float now = 0f;
 
+    public override void _Ready()
+    {
+        if (Global.Difficulty == GameDifficulty.MEDIUM)
+        {
+            rotationSpeed *= 1.5f;
+        }
+        else if (Global.Difficulty == GameDifficulty.HARD)
+        {
+            rotationSpeed *= 3f;
+        }
+    }
 
     public override void _PhysicsProcess(float delta)
     {
