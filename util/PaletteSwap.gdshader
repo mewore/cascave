@@ -13,7 +13,11 @@ void fragment() {
 	ivec2 color_count = palette_size;
 	
 	float idx = -1.0;
-	for (int i = 0; i < color_count.x; i++) {
+    const int MAX_ITERATIONS = 1000;
+	for (int i = 0; i < MAX_ITERATIONS; i++) {
+        if (i >= color_count.x) {
+            break;
+        }
 		vec3 color2 = texture(palette, vec2(float(i) / float(color_count.x - 1), 0)).rgb;
 		ivec3 colori2 = ivec3(round(color2 * 255.0));
 		
