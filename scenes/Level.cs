@@ -33,6 +33,8 @@ public class Level : Node2D
     private PackedScene waterSplashScene = null;
     public Node waterSplashContainer;
 
+    private bool hasWon = false;
+
     private float elapsedTime = 0f;
 
     public override void _Ready()
@@ -162,6 +164,10 @@ public class Level : Node2D
 
     private void WinLevel()
     {
+        if (hasWon)
+        {
+            return;
+        }
         GlobalSound.GetInstance(this).PlayClearLevel();
         targetScene = Global.WinLevel(currentLevel, Mathf.RoundToInt(elapsedTime * 1000f)) ? Global.CurrentLevelPath : MAIN_MENU_PATH;
         overlay.FadeOut();

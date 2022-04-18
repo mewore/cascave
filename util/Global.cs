@@ -137,14 +137,12 @@ public class Global : Node
             array.Add(new Godot.Collections.Array(bestTimes[0], bestTimes[1], bestTimes[2]));
         }
         data.Add(BEST_LEVEL_KEY, array);
-        GD.Print("Saving: ", data);
         SaveData(BEST_LEVEL_KEY, data);
     }
 
     public static bool LoadRecordData()
     {
         var data = LoadData(BEST_LEVEL_KEY);
-        GD.Print("Loading: ", data);
         if (data == null || !data.Contains(BEST_LEVEL_KEY))
         {
             return false;
@@ -155,7 +153,6 @@ public class Global : Node
             var resultTimes = result[levelIndex] as Godot.Collections.Array;
             if (resultTimes == null)
             {
-                GD.Print(result);
                 return false;
             }
             for (int difficultyIndex = 0; difficultyIndex < 3 && difficultyIndex < resultTimes.Count; difficultyIndex++)
